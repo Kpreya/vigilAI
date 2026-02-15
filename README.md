@@ -486,9 +486,6 @@ curl -X POST http://localhost:8000/api/v1/code/generate \
 ✅ **High-Scale APIs** - Microservices, distributed systems
 ✅ **24/7 Operations** - Teams that need sleep but systems don't
 
-### Team Size
-
-Optimized for teams of **10-200 engineers** managing production systems.
 
 ### Industries
 
@@ -632,32 +629,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ---
 
-## 🌟 Support
-
-### Community Support
-
-- **GitHub Discussions:** [Join the conversation](https://github.com/yourusername/vigilai/discussions)
-- **Issue Tracker:** [Report bugs or request features](https://github.com/yourusername/vigilai/issues)
-- **Discord Community:** [Join our Discord](#) (Coming soon)
-
-### Commercial Support
-
-For enterprise support, SLAs, and custom integrations:
-- Email: support@vigilai.dev
-- Website: https://vigilai.dev
-- Schedule a demo: https://vigilai.dev/demo
-
----
-
-## 🙏 Acknowledgments
-
-- **AWS** - Cloud infrastructure and Kiro CLI
-- **DeepSeek AI** - AI diagnosis capabilities
-- **OpenAI** - GPT-4 fallback integration
-- **Anthropic** - Claude AI integration
-- **Open Source Community** - For amazing tools and libraries
-
----
 
 ## 📊 Stats
 
@@ -684,12 +655,6 @@ For enterprise support, SLAs, and custom integrations:
 </p>
 
 <p align="center">
-  Made with ❤️ by the VigilAI Team
+  Made with ❤️ by  Team
 </p>
 
-<p align="center">
-  <a href="https://vigilai.dev">Website</a> •
-  <a href="https://docs.vigilai.dev">Documentation</a> •
-  <a href="https://blog.vigilai.dev">Blog</a> •
-  <a href="https://twitter.com/vigilai">Twitter</a>
-</p>
