@@ -655,6 +655,6 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 </p>
 
 <p align="center">
-  Made with ❤️ by  Team
+  Made with ❤️ by Techiepookie  Team
 </p>
 
