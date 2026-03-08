@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Toast Notification Demo - VigilAI</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  
+  <style type="text/tailwindcss">
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+  </style>
+<link rel="stylesheet" href="/css/tailwind.css">
+</head>
+<body class="bg-paper-bg text-black font-sans min-h-screen p-8">
+  <div class="max-w-4xl mx-auto">
+    <div class="bg-white border-2 border-black p-8 shadow-brutal mb-8">
+      <h1 class="text-3xl font-display font-bold mb-2">Toast Notification Demo</h1>
+      <p class="text-slate-500 font-mono text-sm">Test the brutal design toast notification system</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Success Toast -->
+      <div class="bg-white border-2 border-black p-6 shadow-brutal">
+        <h2 class="text-xl font-display font-bold mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-green-600">check_circle</span>
+          Success Toast
+        </h2>
+        <button 
+          id="btn-success"
+          class="w-full bg-green-600 text-white py-3 px-4 font-mono font-bold uppercase tracking-widest text-sm border-2 border-black hover:bg-green-700 transition-all shadow-brutal active:shadow-none active:translate-x-1 active:translate-y-1">
+          Show Success
+        </button>
+      </div>
+
+      <!-- Error Toast -->
+      <div class="bg-white border-2 border-black p-6 shadow-brutal">
+        <h2 class="text-xl font-display font-bold mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-red-600">error</span>
+          Error Toast
+        </h2>
+        <button 
+          id="btn-error"
+          class="w-full bg-red-600 text-white py-3 px-4 font-mono font-bold uppercase tracking-widest text-sm border-2 border-black hover:bg-red-700 transition-all shadow-brutal active:shadow-none active:translate-x-1 active:translate-y-1">
+          Show Error
+        </button>
+      </div>
+
+      <!-- Info Toast -->
+      <div class="bg-white border-2 border-black p-6 shadow-brutal">
+        <h2 class="text-xl font-display font-bold mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-blue-600">info</span>
+          Info Toast
+        </h2>
+        <button 
+          id="btn-info"
+          class="w-full bg-blue-600 text-white py-3 px-4 font-mono font-bold uppercase tracking-widest text-sm border-2 border-black hover:bg-blue-700 transition-all shadow-brutal active:shadow-none active:translate-x-1 active:translate-y-1">
+          Show Info
+        </button>
+      </div>
+
+      <!-- Warning Toast -->
+      <div class="bg-white border-2 border-black p-6 shadow-brutal">
+        <h2 class="text-xl font-display font-bold mb-4 flex items-center gap-2">
+          <span class="material-symbols-outlined text-yellow-600">warning</span>
+          Warning Toast
+        </h2>
+        <button 
+          id="btn-warning"
+          class="w-full bg-yellow-600 text-white py-3 px-4 font-mono font-bold uppercase tracking-widest text-sm border-2 border-black hover:bg-yellow-700 transition-all shadow-brutal active:shadow-none active:translate-x-1 active:translate-y-1">
+          Show Warning
+        </button>
+      </div>
+    </div>
+
+    <!-- Advanced Tests -->
+    <div class="bg-white border-2 border-black p-6 shadow-brutal mt-6">
+      <h2 class="text-xl font-display font-bold mb-4">Advanced Tests</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button 
+          id="btn-multiple"
+          class="bg-black text-white py-3 px-4 font-mono font-bold uppercase tracking-widest text-sm border-2 border-black hover:bg-slate-800 transition-all shadow-brutal active:shadow-none active:translate-x-1 active:translate-y-1">
+          Show Multiple
+        </button>
+        <button 
+          id="btn-long"
+          class="bg-black text-white py-3 px-4 font-mono font-bold uppercase tracking-widest text-sm border-2 border-black hover:bg-slate-800 transition-all shadow-brutal active:shadow-none active:translate-x-1 active:translate-y-1">
+          Long Message
+        </button>
+        <button 
+          id="btn-persistent"
+          class="bg-black text-white py-3 px-4 font-mono font-bold uppercase tracking-widest text-sm border-2 border-black hover:bg-slate-800 transition-all shadow-brutal active:shadow-none active:translate-x-1 active:translate-y-1">
+          Persistent (No Auto-dismiss)
+        </button>
+      </div>
+    </div>
+
+    <!-- Instructions -->
+    <div class="bg-slate-100 border border-black p-6 mt-6">
+      <h3 class="font-mono font-bold text-sm mb-2 uppercase">Instructions</h3>
+      <ul class="text-sm font-mono text-slate-600 space-y-1">
+        <li>• Click buttons to test different toast types</li>
+        <li>• Toasts auto-dismiss after 5 seconds (except persistent)</li>
+        <li>• Maximum 5 toasts can be displayed at once</li>
+        <li>• Click the X button to manually dismiss a toast</li>
+        <li>• Toasts slide in from the right with brutal design styling</li>
+      </ul>
+    </div>
+  </div>
+
+  <script type="module">
+    import toast from './js/toast.js';
+
+    // Success button
+    document.getElementById('btn-success').addEventListener('click', () => {
+      toast.success('Operation completed successfully!');
+    });
+
+    // Error button
+    document.getElementById('btn-error').addEventListener('click', () => {
+      toast.error('An error occurred while processing your request.');
+    });
+
+    // Info button
+    document.getElementById('btn-info').addEventListener('click', () => {
+      toast.info('Your session will expire in 5 minutes.');
+    });
+
+    // Warning button
+    document.getElementById('btn-warning').addEventListener('click', () => {
+      toast.warning('This action cannot be undone. Please proceed with caution.');
+    });
+
+    // Multiple toasts
+    document.getElementById('btn-multiple').addEventListener('click', () => {
+      toast.success('First toast');
+      setTimeout(() => toast.info('Second toast'), 200);
+      setTimeout(() => toast.warning('Third toast'), 400);
+      setTimeout(() => toast.error('Fourth toast'), 600);
+    });
+
+    // Long message
+    document.getElementById('btn-long').addEventListener('click', () => {
+      toast.info('This is a very long message that demonstrates how the toast notification system handles lengthy content. The text should wrap properly within the toast container and maintain readability with the brutal design aesthetic.');
+    });
+
+    // Persistent toast
+    document.getElementById('btn-persistent').addEventListener('click', () => {
+      toast.warning('This toast will not auto-dismiss. Click the X to close it.', 0);
+    });
+  </script>
+</body>
+</html>

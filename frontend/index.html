@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VigilAI — AI-Powered Application Monitoring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* =========================================
+   TOKENS — LIGHT + DARK THEME
+========================================= */
+:root{
+  /* === PROFESSIONAL LIGHT THEME === */
+  --ink:#0f172a;--ink-dim:#334155;--ink-muted:#64748b;
+  --surface:#ffffff;--surface-2:#f8fafc;--surface-3:#f1f5f9;
+  --border:#e2e8f0;--border-strong:#0f172a;--border-lt:rgba(15,23,42,.08);
+  --card-bg:#ffffff;
+  --green:#15803d;--green-lt:#dcfce7;--green-mid:#22c55e;
+  --yellow:#b45309;--yellow-lt:#fef3c7;--yellow-vv:#fde047;
+  --red:#dc2626;--red-lt:#fef2f2;
+  --blue-lt:#eff6ff;--purple-lt:#faf5ff;
+  --radius:4px;
+  /* Light shadows — slate tinted, not black */
+  --shadow-sm:0 1px 3px rgba(15,23,42,.08),0 1px 2px rgba(15,23,42,.06);
+  --shadow-md:0 4px 6px rgba(15,23,42,.07),0 2px 4px rgba(15,23,42,.06);
+  --shadow-lg:0 10px 15px rgba(15,23,42,.08),0 4px 6px rgba(15,23,42,.05);
+  --shadow-xl:0 20px 25px rgba(15,23,42,.1),0 8px 10px rgba(15,23,42,.06);
+  /* Brutalist accent shadows (used on key cards only) */
+  --shadow-brut-sm:3px 3px 0 0 #0f172a;
+  --shadow-brut-md:5px 5px 0 0 #0f172a;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Manrope',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --ease-spring:cubic-bezier(.34,1.56,.64,1);
+  --ease-out:cubic-bezier(.16,1,.3,1);
+}
+[data-theme="dark"]{
+  --ink:#f1f5f9;--ink-dim:#cbd5e1;--ink-muted:#94a3b8;
+  --surface:#0a0f1a;--surface-2:#0f172a;--surface-3:#1e293b;
+  --border:#2d3748;--border-strong:#f1f5f9;--border-lt:rgba(241,245,249,.1);
+  --card-bg:#111827;
+  --green-lt:rgba(22,163,74,.2);--blue-lt:rgba(37,99,235,.15);--purple-lt:rgba(109,40,217,.15);--yellow-lt:rgba(180,83,9,.2);--red-lt:rgba(220,38,38,.15);
+  --shadow-sm:0 1px 3px rgba(0,0,0,.5);
+  --shadow-md:0 4px 12px rgba(0,0,0,.5);
+  --shadow-lg:0 10px 30px rgba(0,0,0,.5);
+  --shadow-xl:0 20px 40px rgba(0,0,0,.6);
+  --shadow-brut-sm:3px 3px 0 0 rgba(241,245,249,.2);
+  --shadow-brut-md:5px 5px 0 0 rgba(241,245,249,.2);
+}
+/* Dark mode: sections that use var(--ink) as bg need full white text */
+[data-theme="dark"] .cta-section{background:#0a0f1a;border-top:1px solid var(--border)}
+[data-theme="dark"] .cta-headline{color:#f1f5f9}
+[data-theme="dark"] .cta-sub{color:rgba(241,245,249,.6)}
+[data-theme="dark"] .btn-white{background:#f1f5f9;color:#0a0f1a;border-color:#f1f5f9}
+[data-theme="dark"] .btn-white:hover{background:transparent;color:#f1f5f9;border-color:#f1f5f9}
+[data-theme="dark"] .btn-outline-white{border-color:rgba(241,245,249,.35);color:#f1f5f9}
+/* HIW dark mode — cards visible */
+[data-theme="dark"] .hiw-section{background:var(--surface-2)}
+[data-theme="dark"] .hiw-card{background:var(--card-bg);border-color:var(--border)}
+[data-theme="dark"] .hiw-title{color:#f1f5f9}
+[data-theme="dark"] .hiw-desc{color:var(--ink-muted)}
+[data-theme="dark"] .hiw-icon-wrap{background:#1e293b;border-color:var(--border)}
+[data-theme="dark"] .hiw-num{background:#f1f5f9;color:#0a0f1a;border-color:var(--border)}
+/* Video section dark */
+[data-theme="dark"] .video-section{background:var(--surface)}
+[data-theme="dark"] .video-frame-wrap{border-color:var(--border)}
+[data-theme="dark"] .video-frame-bar{background:#1e293b}
+[data-theme="dark"] .video-stat-card{background:var(--card-bg);border-color:var(--border)}
+[data-theme="dark"] .video-stat-label{color:var(--ink-muted)}
+/* Eye section in dark — text must be white (already white but ensure) */
+[data-theme="dark"] .eye-section{background:#0a0f1a}
+/* Pipeline dark */
+[data-theme="dark"] .pipeline-section{background:var(--surface-2)}
+[data-theme="dark"] .node-icon{background:var(--card-bg);border-color:var(--border)}
+[data-theme="dark"] .pipeline-node::after{background:#f1f5f9}
+/* Features dark */
+[data-theme="dark"] .features-section{background:var(--surface-2)}
+[data-theme="dark"] .features-grid{border-color:var(--border);background:var(--card-bg)}
+[data-theme="dark"] .feature-tile{border-color:var(--border);background:var(--card-bg)}
+[data-theme="dark"] .feature-tile:hover{background:var(--surface-3)}
+/* All feature icons: override inline bg to consistent dark container */
+[data-theme="dark"] .feature-icon{background:#1e293b !important;border-color:#334155 !important}
+/* Fix icon SVG strokes in dark mode - use light strokes */
+[data-theme="dark"] .feature-icon svg{stroke:#94a3b8 !important}
+[data-theme="dark"] .feature-tag.active{background:#f1f5f9;color:#0a0f1a}
+[data-theme="dark"] .feature-name{color:#f1f5f9}
+[data-theme="dark"] .feature-desc{color:#94a3b8}
+/* Incident dark */
+[data-theme="dark"] .incident-section{background:var(--card-bg)}
+[data-theme="dark"] .incident-card{background:var(--surface-2);border-color:var(--border)}
+/* Badge text in dark */
+[data-theme="dark"] .badge-green{background:rgba(21,128,61,.2);color:#4ade80;border-color:rgba(74,222,128,.3)}
+[data-theme="dark"] .badge-red{background:rgba(220,38,38,.2);color:#f87171;border-color:rgba(248,113,113,.3)}
+[data-theme="dark"] .badge-yellow{background:rgba(180,83,9,.2);color:#fbbf24;border-color:rgba(251,191,36,.3)}
+[data-theme="dark"] .badge-blue{background:rgba(37,99,235,.2);color:#60a5fa;border-color:rgba(96,165,250,.3)}
+[data-theme="dark"] .badge-purple{background:rgba(109,40,217,.2);color:#a78bfa;border-color:rgba(167,139,250,.3)}
+/* hero-eyebrow, hero-stats dark */
+[data-theme="dark"] .hero-eyebrow{background:var(--card-bg);border-color:var(--border)}
+[data-theme="dark"] .hero-stats{background:var(--card-bg);border-color:var(--border)}
+[data-theme="dark"] .hero-stat{border-right-color:var(--border)}
+[data-theme="dark"] .monitor-panel{border-color:var(--border)}
+[data-theme="dark"] .monitor-service-grid{background:var(--surface-2)}
+[data-theme="dark"] .service-node:hover{background:rgba(255,255,255,.04)}
+[data-theme="dark"] .service-icon{border-color:var(--border)!important}
+[data-theme="dark"] .bot-row{background:var(--surface-2)}
+[data-theme="dark"] .progress-row{background:var(--card-bg)}
+/* Ticker in dark stays same (already ink bg) */
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);background:var(--surface);color:var(--ink);line-height:1.6;overflow-x:hidden;transition:background .3s,color .3s}
+::selection{background:var(--ink);color:var(--surface)}
+img,svg{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* =========================================
+   TYPOGRAPHY
+========================================= */
+.t-label{font-family:var(--font-mono);font-size:.6875rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted)}
+
+/* =========================================
+   COMPONENTS
+========================================= */
+.badge{display:inline-flex;align-items:center;gap:.35rem;font-family:var(--font-mono);font-size:.6875rem;font-weight:600;padding:.25rem .6rem;border:1.5px solid var(--border);border-radius:var(--radius)}
+.badge-green{background:var(--green-lt);color:var(--green);border-color:#86efac}
+.badge-red{background:var(--red-lt);color:var(--red);border-color:#fca5a5}
+.badge-yellow{background:var(--yellow-lt);color:var(--yellow);border-color:#fcd34d}
+.badge-black{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.badge-blue{background:var(--blue-lt);color:#1d4ed8;border-color:#93c5fd}
+.badge-purple{background:var(--purple-lt);color:#6d28d9;border-color:#c4b5fd}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;font-family:var(--font-mono);font-size:.8125rem;font-weight:700;padding:.75rem 1.5rem;border:1.5px solid var(--border);cursor:pointer;position:relative;overflow:hidden;transition:transform .12s,box-shadow .12s,background .15s,color .15s,border-color .15s;border-radius:var(--radius);white-space:nowrap}
+.btn:active{transform:translate(1px,1px)!important}
+.btn-primary{background:var(--ink);color:var(--surface);border-color:var(--ink);box-shadow:var(--shadow-brut-md)}
+.btn-primary:hover{box-shadow:var(--shadow-brut-md),var(--shadow-md)}
+.btn-ghost{background:var(--card-bg);color:var(--ink);border-color:var(--border);box-shadow:var(--shadow-sm)}
+.btn-ghost:hover{background:var(--surface-2);box-shadow:var(--shadow-md)}
+.btn-sm{padding:.45rem 1rem;font-size:.75rem}
+
+/* =========================================
+   LAYOUT
+========================================= */
+.container{max-width:1200px;margin:0 auto;padding:0 2rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
+
+/* =========================================
+   ANIMATIONS
+========================================= */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+@keyframes ping{0%{transform:scale(1);opacity:.7}70%,100%{transform:scale(2.2);opacity:0}}
+.ping-ring{position:absolute;inset:0;border-radius:50%;border:1.5px solid currentColor;animation:ping 1.8s ease-out infinite}
+@keyframes scanBeam{0%{top:0%;opacity:.9}48%{opacity:.9}50%{top:100%;opacity:0}51%{top:0%;opacity:0}52%{opacity:.9}100%{top:100%;opacity:.9}}
+.scan-beam{position:absolute;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,#22c55e 20%,#86efac 50%,#22c55e 80%,transparent);filter:blur(.5px);animation:scanBeam 2.8s linear infinite;z-index:5}
+@keyframes radar{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes botBounce{0%,100%{transform:translateY(0)}40%{transform:translateY(-4px)}}
+.anim-bot{animation:botBounce 1.4s ease-in-out infinite}
+@keyframes dotUp{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+.dot-a{animation:dotUp 1.1s ease infinite .0s}
+.dot-b{animation:dotUp 1.1s ease infinite .18s}
+.dot-c{animation:dotUp 1.1s ease infinite .36s}
+@keyframes progressLoop{0%{width:0%;opacity:1}85%{width:100%;opacity:1}100%{width:100%;opacity:0}}
+.anim-progress{animation:progressLoop 3.5s ease-in-out infinite}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ticker-inner{display:flex;animation:ticker 24s linear infinite;white-space:nowrap}
+@keyframes slideUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0}
+.reveal.visible{animation:slideUp .55s var(--ease-out) forwards}
+@keyframes alertFlash{0%,100%{border-color:var(--border);box-shadow:var(--shadow-sm)}50%{border-color:var(--red);box-shadow:3px 3px 0 0 var(--red)}}
+.alert-flash{animation:alertFlash 2.2s ease-in-out infinite}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+.cursor{animation:blink 1s step-end infinite}
+@keyframes nodeGlow{0%,100%{box-shadow:var(--shadow-sm)}50%{box-shadow:0 0 0 4px rgba(34,197,94,.2),var(--shadow-sm)}}
+.node-glow{animation:nodeGlow 2.5s ease-in-out infinite}
+@keyframes flowDot{0%{left:55%;opacity:0}10%{opacity:1}90%{opacity:1}100%{left:100%;opacity:0}}
+@keyframes logIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:translateX(0)}}
+.log-entry{animation:logIn .25s var(--ease-out) both}
+@keyframes prPop{from{opacity:0;transform:scale(.75) translateX(8px)}to{opacity:1;transform:scale(1) translateX(0)}}
+.pr-badge{animation:prPop .45s var(--ease-spring) 3s both}
+
+/* =========================================
+   NAV
+========================================= */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.96);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(15,23,42,.06);transition:background .3s,border-color .3s}
+[data-theme="dark"] .nav{background:rgba(10,15,26,.96);border-bottom-color:var(--border)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:.9rem 2rem}
+.nav-logo{display:flex;align-items:center;gap:.75rem;font-family:var(--font-display);font-weight:700;font-size:1.125rem;letter-spacing:-.03em}
+.nav-logo-icon{width:2.25rem;height:2.25rem;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:var(--shadow-sm);overflow:hidden;position:relative}
+.nav-links{display:flex;align-items:center;gap:2rem}
+.nav-link{font-family:var(--font-mono);font-size:.8rem;font-weight:500;color:var(--ink-muted);transition:color .15s;position:relative;padding-bottom:2px}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:2px;background:var(--ink);transition:width .2s}
+.nav-link:hover{color:var(--ink)}
+.nav-link:hover::after{width:100%}
+.nav-actions{display:flex;align-items:center;gap:.75rem}
+
+/* Dark mode toggle */
+.theme-toggle{
+  width:2.25rem;height:2.25rem;
+  border:1.5px solid var(--border);
+  background:var(--surface-2);
+  color:var(--ink);
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,color .15s,border-color .15s;
+  border-radius:var(--radius);
+}
+.theme-toggle:hover{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.theme-toggle svg{width:1rem;height:1rem;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round}
+/* In dark mode: button is light so moon icon (dark stroke) is visible */
+[data-theme="dark"] .theme-toggle{background:#f1f5f9;color:#0a0f1a;border-color:#f1f5f9}
+[data-theme="dark"] .theme-toggle:hover{background:#e2e8f0;color:#0a0f1a}
+.icon-sun{display:block}
+.icon-moon{display:none}
+[data-theme="dark"] .icon-sun{display:none}
+[data-theme="dark"] .icon-moon{display:block}
+
+/* =========================================
+   HERO
+========================================= */
+.hero{min-height:100vh;padding:7rem 0 4rem;display:flex;align-items:center;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(37,99,235,.05) 0%,transparent 60%),linear-gradient(to right,rgba(15,23,42,.025) 1px,transparent 1px),linear-gradient(to bottom,rgba(15,23,42,.025) 1px,transparent 1px);background-size:100% 100%,32px 32px,32px 32px}
+[data-theme="dark"] .hero-bg{background:radial-gradient(ellipse 80% 60% at 50% -10%,rgba(59,130,246,.08) 0%,transparent 60%),linear-gradient(to right,rgba(255,255,255,.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.03) 1px,transparent 1px);background-size:100% 100%,32px 32px,32px 32px}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:.6rem;background:var(--card-bg);border:1.5px solid var(--border);box-shadow:var(--shadow-md);padding:.45rem 1rem;margin-bottom:2rem;font-family:var(--font-mono);font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.hero-headline{font-family:var(--font-display);font-weight:800;font-size:clamp(3.5rem,7vw,6.5rem);letter-spacing:-.05em;line-height:.98;margin-bottom:1.75rem}
+.hero-headline .highlight{position:relative;display:inline-block}
+.hero-headline .highlight::after{content:'';position:absolute;left:0;bottom:4px;right:0;height:.4em;background:var(--yellow-vv);z-index:-1;transform:skewX(-2deg)}
+.hero-sub{font-family:var(--font-body);font-size:1.125rem;font-weight:500;color:var(--ink-dim);max-width:38rem;line-height:1.7;margin-bottom:2.5rem}
+.hero-ctas{display:flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-bottom:3.5rem}
+.hero-stats{display:flex;border:1.5px solid var(--border);overflow:hidden;background:var(--card-bg);box-shadow:var(--shadow-md);border-radius:6px}
+.hero-stat{padding:1rem 1.75rem;border-right:1.5px solid var(--border-lt)}
+.hero-stat:last-child{border-right:none}
+.hero-stat-val{font-family:var(--font-display);font-size:1.75rem;font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.hero-stat-label{font-family:var(--font-mono);font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-top:.2rem}
+
+/* =========================================
+   MONITOR PANEL (hero right) — REDESIGNED
+========================================= */
+.monitor-panel{background:var(--card-bg);border:1.5px solid var(--border);box-shadow:var(--shadow-xl);border-radius:12px;overflow:hidden;overflow:hidden;position:relative}
+.monitor-titlebar{background:var(--ink);padding:.65rem 1rem;display:flex;align-items:center;justify-content:space-between}
+.monitor-service-grid{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:2px solid var(--border);position:relative;background:var(--surface-2);overflow:hidden}
+.service-node{padding:.75rem .6rem;border-right:1.5px solid var(--border-lt);display:flex;flex-direction:column;align-items:center;gap:.4rem;cursor:default;transition:background .15s}
+.service-node:last-child{border-right:none}
+.service-node:hover{background:rgba(255,255,255,.7)}
+[data-theme="dark"] .service-node:hover{background:rgba(255,255,255,.05)}
+.service-icon{width:2.25rem;height:2.25rem;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;position:relative;flex-shrink:0}
+.service-status-dot{position:absolute;top:-.3rem;right:-.3rem;width:.55rem;height:.55rem;border-radius:50%;border:1.5px solid var(--surface)}
+.log-stream{background:#09090b;padding:1rem 1.25rem;height:140px;overflow:hidden;border-bottom:2px solid var(--border)}
+.log-ts{color:#3f3f46}.log-ok{color:#22c55e}.log-err{color:#f87171}.log-warn{color:#fbbf24}.log-ai{color:#a78bfa}.log-fix{color:#60a5fa}.log-pr{color:#34d399}.log-info{color:#94a3b8}
+.bot-row{padding:.9rem 1.25rem;border-bottom:2px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface-2)}
+.bot-avatar{width:2.25rem;height:2.25rem;background:var(--ink);border:2px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.thinking-dots{display:flex;gap:.25rem;align-items:center}
+.thinking-dot{width:.35rem;height:.35rem;border-radius:50%;background:var(--ink-dim)}
+.progress-row{padding:1rem 1.25rem;background:var(--card-bg)}
+.progress-track{height:.5rem;background:var(--surface-2);border:1.5px solid var(--border-lt);overflow:hidden;margin:.5rem 0}
+.progress-fill{height:100%;background:var(--ink)}
+
+/* =========================================
+   TICKER
+========================================= */
+.ticker-strip{background:var(--ink);color:var(--surface);border-top:2px solid var(--border);border-bottom:2px solid var(--border);padding:.625rem 0;overflow:hidden}
+.ticker-item{font-family:var(--font-mono);font-size:.75rem;font-weight:600;padding:0 2.5rem;letter-spacing:.06em;opacity:.85}
+
+/* =========================================
+   AI EYE SECTION
+========================================= */
+.eye-section{padding:5rem 0;background:var(--ink);color:#fff;position:relative;overflow:hidden;border-top:2px solid var(--border);border-bottom:2px solid var(--border)}
+.eye-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px}
+.eye-wrapper{display:flex;align-items:center;justify-content:center;gap:4rem;flex-wrap:wrap;position:relative;z-index:1}
+.eye-container{position:relative;width:200px;height:200px;flex-shrink:0}
+.eye-outer-ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.15)}
+.eye-scan-ring{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(34,197,94,.3);animation:ping 2.5s ease-out infinite}
+.eye-scan-ring-2{position:absolute;inset:0;border-radius:50%;border:1px solid rgba(34,197,94,.2);animation:ping 2.5s ease-out infinite .8s}
+
+/* =========================================
+   PIPELINE
+========================================= */
+.pipeline-section{padding:6rem 0;background:var(--surface-2);border-bottom:2px solid var(--border);position:relative;overflow:hidden}
+.pipeline-nodes{display:flex;align-items:flex-start;gap:0;position:relative;margin-top:3.5rem}
+.pipeline-node{flex:1;display:flex;flex-direction:column;align-items:center;text-align:center;padding:0 .5rem;position:relative}
+.pipeline-node::before{content:'';position:absolute;top:2rem;left:50%;right:-50%;height:2px;background:var(--border);z-index:0}
+.pipeline-node:last-child::before{display:none}
+.pipeline-node::after{content:'';position:absolute;top:calc(2rem - 4px);left:55%;width:10px;height:10px;border-radius:50%;background:var(--ink);animation:flowDot 2s ease-in-out infinite;z-index:1}
+.pipeline-node:last-child::after{display:none}
+.pipeline-node:nth-child(2)::after{animation-delay:.4s}
+.pipeline-node:nth-child(3)::after{animation-delay:.8s}
+.pipeline-node:nth-child(4)::after{animation-delay:1.2s}
+.node-icon{width:4rem;height:4rem;border:2px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:center;box-shadow:var(--shadow-md);position:relative;z-index:2;transition:transform .2s var(--ease-spring),box-shadow .15s;cursor:default}
+.node-icon:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.node-step{font-family:var(--font-mono);font-size:.6rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-top:1rem;margin-bottom:.3rem}
+.node-label{font-family:var(--font-display);font-size:.9rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.4rem}
+.node-desc{font-family:var(--font-body);font-size:.75rem;font-weight:500;color:var(--ink-muted);line-height:1.5}
+
+/* =========================================
+   INCIDENTS
+========================================= */
+.incident-section{padding:6rem 0;background:var(--card-bg);border-bottom:2px solid var(--border)}
+.radar-wrap{background:#09090b;border:2px solid var(--border);box-shadow:var(--shadow-lg);padding:2rem;position:relative;overflow:hidden}
+.radar-canvas{width:180px;height:180px;border-radius:50%;border:2px solid #27272a;position:relative;overflow:hidden;margin:0 auto 1.5rem}
+.radar-sweep{position:absolute;top:50%;left:50%;width:50%;height:1.5px;background:linear-gradient(90deg,rgba(34,197,94,.9),transparent);transform-origin:left center;animation:radar 2.2s linear infinite}
+.radar-ring{position:absolute;border-radius:50%;border:1px solid rgba(255,255,255,.07);top:50%;left:50%;transform:translate(-50%,-50%)}
+.radar-blip{position:absolute;width:6px;height:6px;border-radius:50%;animation:pulse 1.5s ease-in-out infinite}
+.incident-list{display:flex;flex-direction:column;gap:1rem}
+.incident-card{background:var(--card-bg);border:1.5px solid var(--border);padding:1.1rem 1.25rem 1.1rem 1.5rem;position:relative;box-shadow:var(--shadow-sm);transition:transform .15s,box-shadow .15s}
+.incident-card:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-lg)}
+.incident-accent{position:absolute;left:0;top:0;bottom:0;width:4px}
+.incident-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:.5rem}
+.incident-title{font-family:var(--font-display);font-size:.95rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.25rem}
+.incident-desc{font-family:var(--font-mono);font-size:.7rem;color:var(--ink-muted);margin-bottom:.75rem;line-height:1.6}
+.incident-footer{display:flex;gap:.5rem;align-items:center;flex-wrap:wrap}
+
+/* =========================================
+   FEATURES
+========================================= */
+.features-section{padding:6rem 0;background:var(--surface-2);border-bottom:2px solid var(--border)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid var(--border);margin-top:3rem}
+.feature-tile{padding:2rem;border-right:1.5px solid var(--border-lt);border-bottom:1.5px solid var(--border-lt);cursor:default;transition:background .15s;position:relative;overflow:hidden}
+.feature-tile:nth-child(3n){border-right:none}
+.feature-tile:nth-child(n+4){border-bottom:none}
+.feature-tile:hover{background:var(--card-bg)}
+.feature-tile:hover .feature-icon{transform:translate(-2px,-2px);box-shadow:var(--shadow-md)}
+.feature-icon{width:3rem;height:3rem;border:2px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;transition:transform .15s,box-shadow .15s}
+.feature-name{font-family:var(--font-display);font-size:1rem;font-weight:700;letter-spacing:-.025em;margin-bottom:.6rem}
+.feature-desc{font-family:var(--font-body);font-size:.825rem;font-weight:500;color:var(--ink-dim);line-height:1.65}
+.feature-tags{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:1.25rem}
+.feature-tag{font-family:var(--font-mono);font-size:.65rem;font-weight:600;padding:.2rem .5rem;border:1.5px solid var(--border-lt);color:var(--ink-dim)}
+.feature-tag.active{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+
+/* =========================================
+   HOW IT WORKS
+========================================= */
+.hiw-section{padding:6rem 0;background:var(--card-bg);border-bottom:2px solid var(--border)}
+.hiw-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.hiw-card{background:var(--card-bg);border:1.5px solid var(--border);box-shadow:var(--shadow-md);padding:2rem;position:relative;transition:transform .15s,box-shadow .15s}
+.hiw-card:hover{transform:translate(-2px,-2px);box-shadow:var(--shadow-lg)}
+.hiw-num{position:absolute;top:-1.25rem;left:-1.25rem;width:2.5rem;height:2.5rem;background:var(--ink);color:var(--surface);font-family:var(--font-display);font-size:1.25rem;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--border)}
+.hiw-icon-wrap{width:3rem;height:3rem;border:2px solid var(--border);box-shadow:var(--shadow-sm);display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem;background:var(--ink)}
+.hiw-title{font-family:var(--font-display);font-size:1.05rem;font-weight:700;letter-spacing:-.025em;margin-bottom:.65rem}
+.hiw-desc{font-family:var(--font-body);font-size:.825rem;font-weight:500;color:var(--ink-dim);line-height:1.65}
+
+/* =========================================
+   VIDEO SECTION (replaces CTA/pricing)
+========================================= */
+.video-section{padding:6rem 0;background:var(--surface);border-bottom:2px solid var(--border);position:relative;overflow:hidden}
+[data-theme="dark"] .video-section{background:var(--surface-2)}
+.video-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(to right,rgba(0,0,0,.035) 1px,transparent 1px),linear-gradient(to bottom,rgba(0,0,0,.035) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+[data-theme="dark"] .video-section::before{background-image:linear-gradient(to right,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px)}
+.video-header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:3rem;position:relative;z-index:1}
+.video-frame-wrap{
+  position:relative;z-index:1;
+  border:2px solid var(--border);
+  box-shadow:var(--shadow-xl);
+  overflow:hidden;
+  background:#000;
+}
+.video-frame-bar{
+  background:var(--ink);
+  padding:.65rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.video-frame-bar-dots{display:flex;gap:.35rem}
+.video-frame-bar-dot{width:.7rem;height:.7rem;border-radius:50%}
+.video-inner{
+  position:relative;
+  width:100%;
+  padding-bottom:56.25%; /* 16:9 */
+  background:#000;
+}
+.video-inner video,.video-inner iframe{
+  position:absolute;inset:0;width:100%;height:100%;border:none;
+}
+/* Play button overlay shown when no src */
+.video-placeholder{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#09090b 0%,#18181b 100%);
+  gap:1.5rem;
+}
+.video-play-btn{
+  width:5rem;height:5rem;
+  border:2px solid rgba(255,255,255,.3);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:background .2s,border-color .2s,transform .2s;
+  position:relative;
+}
+.video-play-btn:hover{background:rgba(255,255,255,.1);border-color:#fff;transform:scale(1.08)}
+.video-play-btn::before{
+  content:'';
+  width:0;height:0;
+  border-top:14px solid transparent;
+  border-bottom:14px solid transparent;
+  border-left:22px solid #fff;
+  margin-left:4px;
+}
+.video-play-btn .ping-ring{color:rgba(255,255,255,.4)}
+.video-placeholder-label{font-family:var(--font-mono);font-size:.75rem;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.12em;text-transform:uppercase}
+/* Side stats */
+.video-side-stats{display:flex;flex-direction:column;gap:1rem;margin-top:2rem}
+.video-stat-card{background:var(--card-bg);border:1.5px solid var(--border);padding:1.25rem;box-shadow:var(--shadow-sm);position:relative;overflow:hidden}
+.video-stat-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:3px}
+.video-stat-card.green::before{background:#22c55e}
+.video-stat-card.red::before{background:#ef4444}
+.video-stat-card.blue::before{background:#3b82f6}
+.video-stat-val{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.04em;line-height:1}
+.video-stat-label{font-family:var(--font-mono);font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-muted);margin-top:.3rem}
+
+/* =========================================
+   CTA (replaces open-source section)
+========================================= */
+.cta-section{padding:7rem 0;background:var(--ink);color:#fff;text-align:center;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background-image:linear-gradient(to right,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px}
+.cta-inner{position:relative;z-index:1}
+.cta-headline{font-family:var(--font-display);font-size:clamp(2.5rem,5vw,4.5rem);font-weight:800;letter-spacing:-.05em;line-height:1.05;margin-bottom:1.25rem}
+.cta-sub{font-family:var(--font-body);font-size:1rem;font-weight:500;color:rgba(255,255,255,.55);margin-bottom:2.5rem}
+.btn-white{background:#fff;color:var(--ink);border:2px solid #fff;box-shadow:4px 4px 0 0 rgba(255,255,255,.3)}
+.btn-white:hover{background:transparent;color:#fff}
+.btn-outline-white{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.4)}
+.btn-outline-white:hover{background:#fff;color:var(--ink);border-color:#fff}
+
+/* =========================================
+   FOOTER
+========================================= */
+footer{background:var(--card-bg);border-top:2px solid var(--border);padding:1.75rem 0}
+.footer-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:0 2rem}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+@media(max-width:1024px){.grid-2{grid-template-columns:1fr}.pipeline-nodes{flex-wrap:wrap;gap:2rem}.pipeline-node::before,.pipeline-node::after{display:none}.pipeline-node{width:calc(33.33% - 1.5rem)}}
+@media(max-width:768px){.container{padding:0 1.25rem}.nav-links{display:none}.hero{padding:6rem 0 3rem}.hero-headline{font-size:3rem}.hero-stats{flex-wrap:wrap}.hero-stat{border-right:none;border-bottom:1.5px solid var(--border-lt)}.features-grid{grid-template-columns:1fr}.feature-tile{border-right:none}.hiw-grid,.video-grid{grid-template-columns:1fr}.pipeline-node{width:calc(50% - 1rem)}}
+
+/* =============================================
+   INTRO — LASER EYE
+============================================= */
+body.intro-active{overflow:hidden}
+#vigil-intro{position:fixed;inset:0;z-index:9999;background:#000;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#intro-eye-wrap{position:relative;width:min(96vw,1100px);z-index:10;user-select:none}
+#lid-top,#lid-bot{position:absolute;left:0;right:0;background:#000;z-index:5;transition:height .7s cubic-bezier(.4,0,.2,1);pointer-events:none}
+#lid-top{top:0;height:50%}
+#lid-bot{bottom:0;height:50%}
+#intro-eye-wrap.open #lid-top{height:0%}
+#intro-eye-wrap.open #lid-bot{height:0%}
+#intro-wordmark{position:absolute;bottom:-5.5rem;left:0;right:0;display:flex;flex-direction:column;align-items:center;gap:.35rem;opacity:0;transform:translateY(8px);transition:opacity .5s ease,transform .5s ease;z-index:15}
+#intro-wordmark.show{opacity:1;transform:translateY(0)}
+#intro-wm-name{font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(2rem,5vw,3.8rem);letter-spacing:-.06em;color:#fff}
+#intro-wm-tag{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.35)}
+#laser-container{position:absolute;inset:0;pointer-events:none;z-index:20}
+#laser-left,#laser-right{position:absolute;height:18px;opacity:0;pointer-events:none;transform:translateY(-50%);transition:transform .55s cubic-bezier(.4,0,.2,1)}
+#laser-left{right:50%;width:0;background:linear-gradient(to left,rgba(255,255,255,1) 0%,rgba(255,255,255,.95) 15%,rgba(255,255,255,.6) 50%,rgba(255,255,255,.15) 85%,transparent 100%);transform-origin:right center;filter:drop-shadow(0 0 16px #fff) drop-shadow(0 0 40px rgba(255,255,255,.9)) drop-shadow(0 0 80px rgba(255,255,255,.5))}
+#laser-right{left:50%;width:0;background:linear-gradient(to right,rgba(255,255,255,1) 0%,rgba(255,255,255,.95) 15%,rgba(255,255,255,.6) 50%,rgba(255,255,255,.15) 85%,transparent 100%);transform-origin:left center;filter:drop-shadow(0 0 16px #fff) drop-shadow(0 0 40px rgba(255,255,255,.9)) drop-shadow(0 0 80px rgba(255,255,255,.5))}
+#laser-left::after,#laser-right::after{content:'';position:absolute;top:50%;left:0;right:0;height:3px;background:#fff;transform:translateY(-50%);filter:blur(.5px)}
+@keyframes laserShoot{0%{width:0;opacity:0}4%{opacity:1}100%{width:52vw;opacity:1}}
+@keyframes laserRetract{0%{opacity:1}100%{width:0;opacity:0}}
+#laser-left.fire,#laser-right.fire{animation:laserShoot .55s cubic-bezier(.2,0,.2,1) forwards}
+#laser-left.retract,#laser-right.retract{animation:laserRetract .3s ease-in forwards}
+#laser-flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:18;transition:opacity .08s ease}
+#laser-flash.on{opacity:.12}
+#laser-flash.off{opacity:0;transition:opacity .4s ease}
+#intro-curtain-top,#intro-curtain-bot{position:fixed;left:0;right:0;background:#000;z-index:25;transition:transform .9s cubic-bezier(.76,0,.24,1)}
+#intro-curtain-top{top:0;height:50vh;transform:translateY(0)}
+#intro-curtain-bot{bottom:0;height:50vh;transform:translateY(0)}
+#intro-curtain-top.pulled{transform:translateY(-100%)}
+#intro-curtain-bot.pulled{transform:translateY(100%)}
+#intro-curtain-top.split{transform:translateY(-100%)}
+#intro-curtain-bot.split{transform:translateY(100%)}
+#page-content{opacity:0;transition:opacity .55s ease .2s}
+#page-content.revealed{opacity:1}
+#vigil-intro.done{display:none!important}
+</style>
+</head>
+<body class="intro-active">
+
+<!-- INTRO -->
+<div id="vigil-intro">
+  <div id="laser-container">
+    <div id="laser-flash"></div>
+    <div id="laser-left"></div>
+    <div id="laser-right"></div>
+  </div>
+  <div id="intro-curtain-top"></div>
+  <div id="intro-curtain-bot"></div>
+  <div id="intro-eye-wrap">
+    <div id="lid-top"></div>
+    <div id="lid-bot"></div>
+    <!-- GREEN EYE SVG -->
+    <svg id="introEye" viewBox="0 0 440 220" style="width:100%;display:block;overflow:visible">
+      <defs>
+        <clipPath id="eyeClipIntro"><ellipse cx="220" cy="110" rx="210" ry="104"/></clipPath>
+        <radialGradient id="scl" cx="50%" cy="50%" r="55%">
+          <stop offset="0%" stop-color="#e8f5e9"/>
+          <stop offset="60%" stop-color="#c8e6c9"/>
+          <stop offset="100%" stop-color="#a5d6a7"/>
+        </radialGradient>
+        <radialGradient id="irisG" cx="42%" cy="38%" r="58%">
+          <stop offset="0%" stop-color="#4caf50"/>
+          <stop offset="40%" stop-color="#2e7d32"/>
+          <stop offset="100%" stop-color="#1b5e20"/>
+        </radialGradient>
+        <radialGradient id="pupG" cx="40%" cy="38%" r="55%">
+          <stop offset="0%" stop-color="#1c1c1c"/>
+          <stop offset="100%" stop-color="#000"/>
+        </radialGradient>
+        <radialGradient id="limbal" cx="50%" cy="50%" r="50%">
+          <stop offset="70%" stop-color="transparent"/>
+          <stop offset="100%" stop-color="rgba(0,0,0,.5)"/>
+        </radialGradient>
+        <filter id="irisGlowF">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+          <feFlood flood-color="#22c55e" flood-opacity=".5" result="color"/>
+          <feComposite in="color" in2="blur" operator="in" result="glow"/>
+          <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Sclera -->
+      <ellipse cx="220" cy="110" rx="210" ry="104" fill="url(#scl)"/>
+      <!-- Iris group -->
+      <g id="introIris" style="transition:transform .7s cubic-bezier(.4,0,.2,1)">
+        <circle cx="220" cy="110" r="74" fill="#1b5e20"/>
+        <circle cx="220" cy="110" r="68" fill="url(#irisG)" filter="url(#irisGlowF)"/>
+        <circle cx="220" cy="110" r="68" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="1.5" stroke-dasharray="2 5" style="transform-origin:220px 110px;animation:radar 10s linear infinite"/>
+        <circle cx="220" cy="110" r="54" fill="none" stroke="rgba(255,255,255,.05)" stroke-width="1" stroke-dasharray="1 4" style="transform-origin:220px 110px;animation:radar 7s linear infinite reverse"/>
+        <circle cx="220" cy="110" r="68" fill="url(#limbal)"/>
+        <!-- Pupil -->
+        <circle cx="220" cy="110" r="34" fill="url(#pupG)"/>
+        <circle cx="220" cy="110" r="22" fill="#000"/>
+        <!-- Catchlights -->
+        <ellipse cx="235" cy="96" rx="12" ry="8" fill="rgba(255,255,255,.75)" transform="rotate(-18,235,96)"/>
+        <circle cx="207" cy="123" r="4.5" fill="rgba(255,255,255,.22)"/>
+        <!-- Green inner glow ring -->
+        <circle cx="220" cy="110" r="36" fill="none" stroke="rgba(34,197,94,.35)" stroke-width="2"/>
+      </g>
+      <!-- Edge shadow -->
+      <g clip-path="url(#eyeClipIntro)">
+        <ellipse cx="220" cy="110" rx="210" ry="104" fill="none" stroke="rgba(0,0,0,.25)" stroke-width="28"/>
+      </g>
+      <!-- Upper eyelid -->
+      <path id="eLidTop" fill="#000" d="M 10 110 Q 220 14 430 110 L 440 0 L 0 0 Z"/>
+      <!-- Lower eyelid with blink -->
+      <path id="eLidBot" fill="#000" d="M 10 110 Q 220 206 430 110 L 440 220 L 0 220 Z">
+        <animate attributeName="d" values="M 10 110 Q 220 206 430 110 L 440 220 L 0 220 Z;M 10 110 Q 220 115 430 110 L 440 220 L 0 220 Z;M 10 110 Q 220 206 430 110 L 440 220 L 0 220 Z" begin="2.2s" dur="3s" keyTimes="0;.06;.12" calcMode="spline" keySplines=".4 0 .2 1;.4 0 .2 1" repeatCount="indefinite"/>
+      </path>
+      <!-- Eye outline -->
+      <path fill="none" stroke="rgba(34,197,94,.2)" stroke-width="1.5" d="M 10 110 Q 220 14 430 110 Q 220 206 10 110"/>
+    </svg>
+    <div id="intro-wordmark">
+      <div id="intro-wm-name">VigilAI</div>
+      <div id="intro-wm-tag">AI-Powered Application Monitoring</div>
+    </div>
+  </div>
+</div>
+
+<div id="page-content">
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">
+        <!-- Fixed scanning eye logo — uses JS animation not SVG animate -->
+        <svg id="navEyeSvg" width="22" height="14" viewBox="0 0 100 60" style="position:relative;z-index:2;overflow:visible">
+          <defs>
+            <clipPath id="navEyeClip"><ellipse cx="50" cy="30" rx="44" ry="27"/></clipPath>
+          </defs>
+          <ellipse cx="50" cy="30" rx="44" ry="27" fill="#fff"/>
+          <circle cx="50" cy="30" r="16" fill="#22c55e"/>
+          <circle cx="50" cy="30" r="8" fill="#09090b"/>
+          <circle cx="57" cy="24" r="4" fill="rgba(255,255,255,.4)"/>
+          <path fill="#09090b" d="M 6 30 Q 50 3 94 30 L 100 0 L 0 0 Z"/>
+          <path fill="#09090b" d="M 6 30 Q 50 57 94 30 L 100 60 L 0 60 Z"/>
+          <path fill="none" stroke="rgba(255,255,255,.3)" stroke-width="1.5" d="M 6 30 Q 50 3 94 30 Q 50 57 6 30"/>
+          <g clip-path="url(#navEyeClip)">
+            <rect id="navScanLine" x="-6" y="0" width="6" height="60" fill="rgba(255,255,255,.5)" rx="1"/>
+          </g>
+        </svg>
+      </div>
+      <span>VigilAI</span>
+      <span class="badge badge-black" style="font-size:.6rem;padding:.15rem .45rem">BETA</span>
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">Features</a>
+      <a href="#pipeline" class="nav-link">How it works</a>
+      <a href="#incidents" class="nav-link">Incidents</a>
+      <a href="#demo" class="nav-link">Demo</a>
+      <a href="/team.html" class="nav-link">Team</a>
+    </div>
+    <div class="nav-actions">
+      <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/login.html" class="btn btn-ghost btn-sm">Sign in</a>
+      <a href="/signup.html" class="btn btn-primary btn-sm">
+        Get started
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="container" style="position:relative;z-index:1;width:100%">
+    <div class="grid-2" style="gap:4rem">
+      <div>
+        <div class="hero-eyebrow reveal">
+          <span style="width:.5rem;height:.5rem;border-radius:50%;background:#22c55e;position:relative;flex-shrink:0"><span class="ping-ring" style="color:#22c55e"></span></span>
+          System operational &nbsp;·&nbsp; All services running
+        </div>
+        <h1 class="hero-headline reveal" style="animation-delay:.05s">
+          Monitor.<br/><span class="highlight">Detect.</span><br/>Respond.
+        </h1>
+        <p class="hero-sub reveal" style="animation-delay:.1s">
+          VigilAI gives your team <strong>AI-powered incident detection</strong>, <strong>pull request tracking</strong>, and <strong>application monitoring</strong> — all in a single dashboard built for speed.
+        </p>
+        <div class="hero-ctas reveal" style="animation-delay:.15s">
+          <a href="/signup.html" class="btn btn-primary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+            Start monitoring free
+          </a>
+          <a href="/login.html" class="btn btn-ghost">Sign in to dashboard →</a>
+        </div>
+        <div class="hero-stats reveal" style="animation-delay:.2s">
+          <div class="hero-stat"><div class="hero-stat-val">99.9%</div><div class="hero-stat-label">Uptime SLA</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">&lt;30s</div><div class="hero-stat-label">Detection time</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">REST</div><div class="hero-stat-label">Full API</div></div>
+          <div class="hero-stat"><div class="hero-stat-val">GitHub</div><div class="hero-stat-label">Native PR sync</div></div>
+        </div>
+      </div>
+
+      <!-- REDESIGNED MONITOR PANEL -->
+      <div class="reveal" style="animation-delay:.25s">
+        <div class="monitor-panel">
+          <div class="monitor-titlebar">
+            <div style="display:flex;align-items:center;gap:.75rem">
+              <div style="display:flex;gap:.35rem">
+                <div class="terminal-dot" style="width:.7rem;height:.7rem;border-radius:50%;background:#ef4444"></div>
+                <div class="terminal-dot" style="width:.7rem;height:.7rem;border-radius:50%;background:#f59e0b"></div>
+                <div class="terminal-dot" style="width:.7rem;height:.7rem;border-radius:50%;background:#22c55e"></div>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:.7rem;color:rgba(255,255,255,.6)">vigil-ai — live monitor</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:.4rem">
+              <span style="width:.45rem;height:.45rem;border-radius:50%;background:#22c55e;animation:pulse 1.5s ease-in-out infinite"></span>
+              <span style="font-family:var(--font-mono);font-size:.65rem;color:#22c55e;font-weight:600">LIVE</span>
+            </div>
+          </div>
+
+          <!-- Service grid with scan beam -->
+          <div class="monitor-service-grid">
+            <div class="scan-beam"></div>
+            <div class="service-node">
+              <div class="service-icon" style="background:#09090b">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                <span class="service-status-dot" style="background:#22c55e;box-shadow:0 0 4px #22c55e"></span>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:.6rem;font-weight:600">api-gateway</span>
+              <span class="badge badge-green" style="font-size:.55rem;padding:.1rem .4rem">OK</span>
+            </div>
+            <div class="service-node">
+              <div class="service-icon alert-flash" style="background:#fff2f2;position:relative">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>
+                <span class="service-status-dot" style="background:#ef4444;box-shadow:0 0 4px #ef4444;animation:pulse 1s ease-in-out infinite"></span>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:.6rem;font-weight:600">postgres-db</span>
+              <span class="badge badge-red" style="font-size:.55rem;padding:.1rem .4rem">ERR</span>
+            </div>
+            <div class="service-node">
+              <div class="service-icon" style="background:#09090b">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span class="service-status-dot" style="background:#22c55e;box-shadow:0 0 4px #22c55e"></span>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:.6rem;font-weight:600">auth-svc</span>
+              <span class="badge badge-green" style="font-size:.55rem;padding:.1rem .4rem">OK</span>
+            </div>
+            <div class="service-node">
+              <div class="service-icon" style="background:#fde047">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 1 0-14.14 14.14A10 10 0 0 0 19.07 4.93z"/></svg>
+                <span class="service-status-dot" style="background:#f59e0b;box-shadow:0 0 4px #f59e0b;animation:pulse 1.3s ease-in-out infinite"></span>
+              </div>
+              <span style="font-family:var(--font-mono);font-size:.6rem;font-weight:600">bg-worker</span>
+              <span class="badge badge-yellow" style="font-size:.55rem;padding:.1rem .4rem">WARN</span>
+            </div>
+          </div>
+
+          <!-- Log stream -->
+          <div class="log-stream" id="heroLog">
+            <div class="log-entry" style="display:flex;gap:.6rem;margin-bottom:.3rem;font-size:.7rem"><span class="log-ts">08:42:01</span><span class="log-fix">[SCAN]</span><span class="log-info">Scanning 4 services across 2 environments…</span></div>
+            <div class="log-entry" style="display:flex;gap:.6rem;margin-bottom:.3rem;font-size:.7rem;animation-delay:.4s"><span class="log-ts">08:42:02</span><span class="log-ok">[OK]</span><span class="log-info">api-gateway · 198ms · p99 stable</span></div>
+            <div class="log-entry" style="display:flex;gap:.6rem;margin-bottom:.3rem;font-size:.7rem;animation-delay:.8s"><span class="log-ts">08:42:03</span><span class="log-warn">[WARN]</span><span class="log-info">bg-worker · queue depth 912 (threshold 500)</span></div>
+            <div class="log-entry" style="display:flex;gap:.6rem;margin-bottom:.3rem;font-size:.7rem;animation-delay:1.2s"><span class="log-ts">08:42:04</span><span class="log-err">[ERR]</span><span class="log-info">postgres-db · connection pool exhausted</span></div>
+            <div class="log-entry" style="display:flex;gap:.6rem;margin-bottom:.3rem;font-size:.7rem;animation-delay:1.6s"><span class="log-ts">08:42:05</span><span class="log-ai">[AI]</span><span class="log-info">Root cause: missing index on users.created_at</span></div>
+            <div class="log-entry" style="display:flex;gap:.6rem;margin-bottom:.3rem;font-size:.7rem;animation-delay:2s"><span class="log-ts">08:42:06</span><span class="log-fix">[FIX]</span><span class="log-info">Patch generated · CREATE INDEX CONCURRENTLY…</span></div>
+            <div class="log-entry" style="display:flex;gap:.6rem;font-size:.7rem;animation-delay:2.4s"><span class="log-ts">08:42:07</span><span class="log-pr">[PR]</span><span class="log-info">Opened PR #2847 · fix/db-index-users<span class="cursor">_</span></span></div>
+          </div>
+
+          <!-- Bot row -->
+          <div class="bot-row">
+            <div style="display:flex;align-items:center;gap:.75rem">
+              <div class="bot-avatar anim-bot">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/><circle cx="9" cy="14" r="1" fill="#fff"/><circle cx="15" cy="14" r="1" fill="#fff"/></svg>
+              </div>
+              <div>
+                <div style="font-family:var(--font-mono);font-size:.7rem;font-weight:700">VigilBot generating fix</div>
+                <div class="thinking-dots" style="margin-top:.25rem"><div class="thinking-dot dot-a"></div><div class="thinking-dot dot-b"></div><div class="thinking-dot dot-c"></div></div>
+              </div>
+            </div>
+            <div class="pr-badge">
+              <span class="badge badge-green" style="gap:.4rem">
+                <svg width="11" height="11" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="4" cy="12" r="2"/><path d="M4 6v4M6 4h2a2 2 0 0 1 2 2v2"/></svg>
+                PR #2847 opened
+              </span>
+            </div>
+          </div>
+
+          <!-- Progress -->
+          <div class="progress-row">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.4rem">
+              <span style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase">AI Fix Progress</span>
+              <span style="font-family:var(--font-mono);font-size:.65rem;color:var(--ink-muted)">Applying patch…</span>
+            </div>
+            <div class="progress-track"><div class="progress-fill anim-progress"></div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <span style="font-family:var(--font-mono);font-size:.6rem;color:var(--ink-muted)">Scan → Detect → Analyze → Fix → PR</span>
+              <span style="font-family:var(--font-mono);font-size:.6rem;font-weight:700;color:#16a34a;animation:pulse 1.5s ease-in-out infinite">● AUTO-FIX</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-strip">
+  <div class="ticker-inner">
+    <span class="ticker-item">✦ INCIDENT DETECTION</span><span class="ticker-item">✦ PULL REQUEST TRACKING</span><span class="ticker-item">✦ API KEY MANAGEMENT</span><span class="ticker-item">✦ APPLICATION MONITORING</span><span class="ticker-item">✦ REAL-TIME ALERTS</span><span class="ticker-item">✦ AI-POWERED INSIGHTS</span><span class="ticker-item">✦ GITHUB INTEGRATION</span><span class="ticker-item">✦ JWT SECURE AUTH</span>
+    <span class="ticker-item">✦ INCIDENT DETECTION</span><span class="ticker-item">✦ PULL REQUEST TRACKING</span><span class="ticker-item">✦ API KEY MANAGEMENT</span><span class="ticker-item">✦ APPLICATION MONITORING</span><span class="ticker-item">✦ REAL-TIME ALERTS</span><span class="ticker-item">✦ AI-POWERED INSIGHTS</span><span class="ticker-item">✦ GITHUB INTEGRATION</span><span class="ticker-item">✦ JWT SECURE AUTH</span>
+  </div>
+</div>
+
+<!-- AI EYE SECTION -->
+<section class="eye-section">
+  <div class="container">
+    <div class="eye-wrapper">
+      <div class="eye-container" style="width:280px;height:280px">
+        <div class="eye-outer-ring" style="border-color:rgba(255,255,255,.1)"></div>
+        <div style="position:absolute;inset:20px;display:flex;align-items:center;justify-content:center;overflow:hidden">
+          <svg viewBox="0 0 220 130" width="240" height="142" style="overflow:visible">
+            <defs>
+              <clipPath id="eyeClip"><ellipse cx="110" cy="65" rx="100" ry="58"/></clipPath>
+              <linearGradient id="scanGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="white" stop-opacity="0"/>
+                <stop offset="48%" stop-color="white" stop-opacity="0.85"/>
+                <stop offset="52%" stop-color="white" stop-opacity="1"/>
+                <stop offset="100%" stop-color="white" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="scanGlow"><feGaussianBlur in="SourceGraphic" stdDeviation="3"/></filter>
+              <filter id="irisGlow2"><feGaussianBlur in="SourceGraphic" stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            </defs>
+            <ellipse cx="110" cy="65" rx="100" ry="58" fill="#e8f5e9"/>
+            <circle cy="65" r="36" fill="#1a7a3c" filter="url(#irisGlow2)"><animate attributeName="cx" values="110;88;124;100;110" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"/></circle>
+            <circle cy="65" r="28" fill="#22c55e"><animate attributeName="cx" values="110;88;124;100;110" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"/></circle>
+            <circle cy="65" r="16" fill="#050508"><animate attributeName="cx" values="110;88;124;100;110" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"/></circle>
+            <circle cy="57" r="5" fill="rgba(255,255,255,.5)"><animate attributeName="cx" values="116;94;130;106;116" dur="5s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1;.42 0 .58 1;.42 0 .58 1"/></circle>
+            <g clip-path="url(#eyeClip)">
+              <rect y="7" width="36" height="116" fill="url(#scanGrad)" filter="url(#scanGlow)" opacity=".7"><animate attributeName="x" values="-36;220;-36" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1"/></rect>
+              <rect y="7" width="36" height="116" fill="url(#scanGrad)"><animate attributeName="x" values="-36;220;-36" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1"/></rect>
+              <rect y="7" width="3" height="116" fill="rgba(255,255,255,.95)"><animate attributeName="x" values="-36;220;-36" dur="2.8s" repeatCount="indefinite" calcMode="spline" keySplines=".4 0 .6 1;.4 0 .6 1"/></rect>
+            </g>
+            <path fill="#09090b" d="M 10 65 Q 110 5 210 65 L 220 0 L 0 0 Z"/>
+            <path fill="#09090b" d="M 10 65 Q 110 125 210 65 L 220 130 L 0 130 Z"><animate attributeName="d" values="M 10 65 Q 110 125 210 65 L 220 130 L 0 130 Z;M 10 65 Q 110 68  210 65 L 220 130 L 0 130 Z;M 10 65 Q 110 125 210 65 L 220 130 L 0 130 Z" dur="5s" repeatCount="indefinite" keyTimes="0;0.07;0.14" calcMode="spline" keySplines=".4 0 .2 1;.4 0 .2 1"/></path>
+            <path fill="#09090b" d="M 10 65 Q 110 5 210 65 L 220 0 L 0 0 Z"><animate attributeName="d" values="M 10 65 Q 110 5  210 65 L 220 0 L 0 0 Z;M 10 65 Q 110 62 210 65 L 220 0 L 0 0 Z;M 10 65 Q 110 5  210 65 L 220 0 L 0 0 Z" dur="5s" repeatCount="indefinite" keyTimes="0;0.07;0.14" calcMode="spline" keySplines=".4 0 .2 1;.4 0 .2 1"/></path>
+            <path fill="none" stroke="rgba(34,197,94,.35)" stroke-width="2" d="M 10 65 Q 110 5 210 65 Q 110 125 10 65"/>
+          </svg>
+        </div>
+        <div class="eye-scan-ring" style="border-color:rgba(34,197,94,.4)"></div>
+        <div class="eye-scan-ring-2" style="border-color:rgba(34,197,94,.25)"></div>
+      </div>
+      <div style="max-width:480px;color:#fff">
+        <div class="t-label" style="color:rgba(255,255,255,.4);margin-bottom:.75rem">// AI SCANNING ENGINE</div>
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(1.75rem,3vw,2.75rem);color:#fff;margin-bottom:1.25rem;letter-spacing:-.025em">Always watching.<br/>Never missing a beat.</h2>
+        <p style="font-family:var(--font-body);font-size:.9375rem;font-weight:500;color:rgba(255,255,255,.5);line-height:1.7;margin-bottom:2rem">VigilAI's scanning engine continuously monitors every service, log stream, and deployment. When something shifts — latency, errors, throughput — it sees it before your users do.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.1)">
+          <div style="background:#09090b;padding:1.1rem"><div style="font-family:var(--font-display);font-size:1.75rem;font-weight:800;color:#22c55e;letter-spacing:-.04em">847ms</div><div style="font-family:var(--font-mono);font-size:.65rem;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-top:.25rem">Avg response time</div></div>
+          <div style="background:#09090b;padding:1.1rem"><div style="font-family:var(--font-display);font-size:1.75rem;font-weight:800;color:#f87171;letter-spacing:-.04em;animation:pulse 2s ease-in-out infinite">3</div><div style="font-family:var(--font-mono);font-size:.65rem;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-top:.25rem">Open incidents</div></div>
+          <div style="background:#09090b;padding:1.1rem;border-top:1px solid rgba(255,255,255,.08)"><div style="font-family:var(--font-display);font-size:1.75rem;font-weight:800;color:#fbbf24;letter-spacing:-.04em">12m</div><div style="font-family:var(--font-mono);font-size:.65rem;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-top:.25rem">MTTR today</div></div>
+          <div style="background:#09090b;padding:1.1rem;border-top:1px solid rgba(255,255,255,.08)"><div style="font-family:var(--font-display);font-size:1.75rem;font-weight:800;color:#60a5fa;letter-spacing:-.04em">2</div><div style="font-family:var(--font-mono);font-size:.65rem;font-weight:600;color:rgba(255,255,255,.4);letter-spacing:.08em;text-transform:uppercase;margin-top:.25rem">PRs auto-created</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PIPELINE -->
+<section class="pipeline-section" id="pipeline">
+  <div class="container">
+    <div style="margin-bottom:1rem"><span class="t-label">// AI WORKFLOW</span></div>
+    <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,4vw,3rem);letter-spacing:-.025em" class="reveal">From anomaly to merged fix — automatically.</h2>
+    <p style="font-family:var(--font-body);font-weight:500;line-height:1.65;color:var(--ink-dim);max-width:42rem;margin-top:.75rem" class="reveal">VigilAI closes the loop between detection and resolution. Every incident is triaged, analyzed, and patched without waking up your team at 3am.</p>
+    <div class="pipeline-nodes">
+      <div class="pipeline-node reveal" style="animation-delay:.1s">
+        <div class="node-icon node-glow" style="background:var(--ink)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--surface)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/><path d="M4.93 4.93l2.12 2.12M16.95 16.95l2.12 2.12M4.93 19.07l2.12-2.12M16.95 7.05l2.12-2.12"/></svg></div>
+        <div class="node-step">01</div><div class="node-label">AI Scans</div>
+        <div class="node-desc">Monitors services for anomalies, errors, latency spikes 24/7</div>
+      </div>
+      <div class="pipeline-node reveal" style="animation-delay:.18s">
+        <div class="node-icon" style="background:#fff2f2;border-color:#dc2626;position:relative"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span style="position:absolute;top:-.35rem;right:-.35rem;width:.65rem;height:.65rem;border-radius:50%;background:#ef4444;border:2px solid var(--surface);animation:pulse 1s ease-in-out infinite"></span></div>
+        <div class="node-step">02</div><div class="node-label">Issue Detected</div>
+        <div class="node-desc">Incident created, severity scored, team alerted in &lt;30s</div>
+      </div>
+      <div class="pipeline-node reveal" style="animation-delay:.26s">
+        <div class="node-icon" style="background:#fde047"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+        <div class="node-step">03</div><div class="node-label">AI Analyzes</div>
+        <div class="node-desc">LLM reads stack traces, logs, diffs — pinpoints root cause</div>
+      </div>
+      <div class="pipeline-node reveal" style="animation-delay:.34s">
+        <div class="node-icon" style="background:var(--blue-lt)"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+        <div class="node-step">04</div><div class="node-label">Fix Generated</div>
+        <div class="node-desc">Code patch authored and validated against the failing scenario</div>
+      </div>
+      <div class="pipeline-node reveal" style="animation-delay:.42s">
+        <div class="node-icon" style="background:var(--green-lt);border-color:var(--green)"><svg width="24" height="24" viewBox="0 0 16 16" fill="none" stroke="#16a34a" stroke-width="1.6" stroke-linecap="round"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="4" cy="12" r="2"/><path d="M4 6v4M6 4h2a2 2 0 0 1 2 2v2"/></svg></div>
+        <div class="node-step">05</div><div class="node-label">PR Opened</div>
+        <div class="node-desc">GitHub PR created with context, diff, and linked incident ID</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INCIDENTS -->
+<section class="incident-section" id="incidents">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:auto 1fr;gap:4rem;align-items:start">
+      <div style="width:320px;flex-shrink:0">
+        <div class="t-label" style="margin-bottom:.75rem">// LIVE RADAR</div>
+        <div class="radar-wrap">
+          <div class="radar-canvas">
+            <div class="radar-ring" style="width:65%;height:65%"></div>
+            <div class="radar-ring" style="width:40%;height:40%"></div>
+            <div class="radar-sweep"></div>
+            <div style="position:absolute;top:50%;left:50%;width:6px;height:6px;border-radius:50%;background:#22c55e;transform:translate(-50%,-50%)"></div>
+            <div class="radar-blip" style="background:#ef4444;top:36%;left:61%;animation-delay:.2s"></div>
+            <div class="radar-blip" style="background:#22c55e;top:61%;left:29%;animation-delay:.9s"></div>
+            <div class="radar-blip" style="background:#fbbf24;top:26%;left:41%;animation-delay:1.4s;width:5px;height:5px"></div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:rgba(255,255,255,.08);margin-bottom:1.25rem">
+            <div style="background:#09090b;padding:.75rem;text-align:center"><div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#fff;letter-spacing:-.04em">4</div><div style="font-family:var(--font-mono);font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em">Online</div></div>
+            <div style="background:#09090b;padding:.75rem;text-align:center"><div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#f87171;letter-spacing:-.04em;animation:pulse 2s ease-in-out infinite">1</div><div style="font-family:var(--font-mono);font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em">Critical</div></div>
+            <div style="background:#09090b;padding:.75rem;text-align:center"><div style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;color:#22c55e;letter-spacing:-.04em">12m</div><div style="font-family:var(--font-mono);font-size:.6rem;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.07em">MTTR</div></div>
+          </div>
+          <div style="font-family:var(--font-mono);font-size:.65rem;line-height:1.9">
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.2rem"><span style="width:.4rem;height:.4rem;border-radius:50%;background:#22c55e;flex-shrink:0"></span><span style="color:rgba(255,255,255,.6)">api-gateway · OK</span></div>
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.2rem"><span style="width:.4rem;height:.4rem;border-radius:50%;background:#ef4444;flex-shrink:0;animation:pulse 1s ease-in-out infinite"></span><span style="color:rgba(255,255,255,.6)">postgres-db · ERR</span></div>
+            <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.2rem"><span style="width:.4rem;height:.4rem;border-radius:50%;background:#22c55e;flex-shrink:0"></span><span style="color:rgba(255,255,255,.6)">auth-svc · OK</span></div>
+            <div style="display:flex;align-items:center;gap:.5rem"><span style="width:.4rem;height:.4rem;border-radius:50%;background:#fbbf24;flex-shrink:0;animation:pulse 1.3s ease-in-out infinite"></span><span style="color:rgba(255,255,255,.6)">bg-worker · WARN</span></div>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;background:var(--card-bg);border:2px solid var(--border);box-shadow:var(--shadow-sm);padding:1rem">
+          <div style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.75rem">Error rate · 60min</div>
+          <svg viewBox="0 0 280 72" style="width:100%;height:72px">
+            <defs><linearGradient id="errGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#ef4444" stop-opacity=".2"/><stop offset="100%" stop-color="#ef4444" stop-opacity="0"/></linearGradient></defs>
+            <line x1="0" y1="18" x2="280" y2="18" stroke="var(--border-lt)" stroke-width="1"/>
+            <line x1="0" y1="36" x2="280" y2="36" stroke="var(--border-lt)" stroke-width="1"/>
+            <line x1="0" y1="54" x2="280" y2="54" stroke="var(--border-lt)" stroke-width="1"/>
+            <polygon points="0,72 0,58 28,56 56,57 84,55 112,54 140,52 168,30 188,8 208,8 228,10 248,52 268,54 280,55 280,72" fill="url(#errGrad)"/>
+            <polyline points="0,58 28,56 56,57 84,55 112,54 140,52 168,30 188,8 208,8 228,10 248,52 268,54 280,55" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <line x1="188" y1="0" x2="188" y2="72" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,3"/>
+            <rect x="174" y="1" width="48" height="14" rx="1" fill="#ef4444"/>
+            <text x="198" y="11" text-anchor="middle" fill="white" font-size="7" font-family="monospace" font-weight="700">INCIDENT</text>
+          </svg>
+        </div>
+      </div>
+      <div>
+        <div class="t-label" style="margin-bottom:.75rem">// INCIDENT FEED</div>
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:2rem;letter-spacing:-.025em">Issues caught, analyzed, and patched.</h2>
+        <div class="incident-list">
+          <div class="incident-card alert-flash">
+            <div class="incident-accent" style="background:#ef4444"></div>
+            <div class="incident-top"><div style="display:flex;align-items:center;gap:.6rem"><span class="badge badge-red">CRITICAL</span><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--ink-muted)">#INC-2847</span></div><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--ink-muted)">2 min ago</span></div>
+            <div class="incident-title">postgres-db · Connection pool exhausted</div>
+            <div class="incident-desc">ORA-12541 · Failed to acquire connection after 30s timeout. Pool size: 100/100 active</div>
+            <div class="incident-footer">
+              <span class="badge" style="background:var(--purple-lt);color:#6d28d9;border-color:#c4b5fd;gap:.4rem"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>AI analyzing<span class="thinking-dots" style="margin-left:.15rem"><span class="thinking-dot dot-a" style="background:#6d28d9"></span><span class="thinking-dot dot-b" style="background:#6d28d9"></span><span class="thinking-dot dot-c" style="background:#6d28d9"></span></span></span>
+              <span style="font-family:var(--font-mono);font-size:.65rem;color:#ef4444;font-weight:700;animation:pulse 1.5s ease-in-out infinite">● ACTIVE</span>
+            </div>
+          </div>
+          <div class="incident-card">
+            <div class="incident-accent" style="background:#3b82f6"></div>
+            <div class="incident-top"><div style="display:flex;align-items:center;gap:.6rem"><span class="badge badge-blue">HIGH</span><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--ink-muted)">#INC-2841</span></div><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--ink-muted)">18 min ago</span></div>
+            <div class="incident-title">api-gateway · P99 latency spiked to 4,200ms</div>
+            <div class="incident-desc">Upstream timeout on /api/v2/users. Traced to N+1 query pattern in UserController.index()</div>
+            <div class="incident-footer">
+              <span class="badge badge-green" style="gap:.35rem"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>Fix generated</span>
+              <span class="badge" style="background:var(--green-lt);color:var(--green);border-color:var(--green);gap:.35rem"><svg width="10" height="10" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="4" cy="12" r="2"/><path d="M4 6v4M6 4h2a2 2 0 0 1 2 2v2"/></svg>PR #2843 · review</span>
+              <span style="font-family:var(--font-mono);font-size:.65rem;color:#3b82f6;font-weight:700">● FIX IN REVIEW</span>
+            </div>
+          </div>
+          <div class="incident-card" style="opacity:.65">
+            <div class="incident-accent" style="background:#22c55e"></div>
+            <div class="incident-top"><div style="display:flex;align-items:center;gap:.6rem"><span class="badge badge-black" style="opacity:.5">MEDIUM</span><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--ink-muted)">#INC-2839</span></div><span style="font-family:var(--font-mono);font-size:.65rem;color:var(--ink-muted)">1 hr ago</span></div>
+            <div class="incident-title">auth-svc · Token refresh failing after deploy</div>
+            <div class="incident-desc">JWT expiry misconfigured post v2.3.1 rollout. AI-generated patch merged and verified in 8 min.</div>
+            <div class="incident-footer">
+              <span class="badge badge-green" style="gap:.35rem"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>Auto-resolved · PR #2840 merged</span>
+              <span style="font-family:var(--font-mono);font-size:.65rem;color:var(--green);font-weight:700">● RESOLVED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section" id="features">
+  <div class="container">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div><span class="t-label">// FEATURES</span><h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,4vw,3rem);margin-top:.5rem;letter-spacing:-.025em" class="reveal">Everything you need<br/>to ship with confidence.</h2></div>
+      <a href="/signup.html" class="btn btn-primary reveal">View all features →</a>
+    </div>
+    <div class="features-grid">
+      <div class="feature-tile">
+        <div class="feature-icon" style="background:var(--ink)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--surface)" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+        <div class="feature-name">Incident Management</div>
+        <div class="feature-desc">Detect, triage, and resolve incidents faster. Assign severity, link services, and measure MTTR automatically.</div>
+        <div class="feature-tags"><span class="feature-tag active">Severity Levels</span><span class="feature-tag">MTTR Tracking</span><span class="feature-tag">Status Updates</span></div>
+      </div>
+      <div class="feature-tile">
+        <div class="feature-icon" style="background:var(--ink)"><svg width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="var(--surface)" stroke-width="1.8" stroke-linecap="round"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="4" cy="12" r="2"/><path d="M4 6v4M6 4h2a2 2 0 0 1 2 2v2"/></svg></div>
+        <div class="feature-name">Pull Request Sync</div>
+        <div class="feature-desc">Link every deploy to its PR. Sync GitHub in one click and correlate code changes with production incidents.</div>
+        <div class="feature-tags"><span class="feature-tag active">GitHub Sync</span><span class="feature-tag">Deploy Tracking</span><span class="feature-tag">Change Impact</span></div>
+      </div>
+      <div class="feature-tile">
+        <div class="feature-icon" style="background:var(--ink)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--surface)" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div class="feature-name">Secure API Keys</div>
+        <div class="feature-desc">Generate, rotate, and revoke API keys with granular scopes. Control exactly what each key can access.</div>
+        <div class="feature-tags"><span class="feature-tag active">Scoped Access</span><span class="feature-tag">Instant Revoke</span><span class="feature-tag">Audit Logs</span></div>
+      </div>
+      <div class="feature-tile">
+        <div class="feature-icon" style="background:#fde047"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+        <div class="feature-name">Application Registry</div>
+        <div class="feature-desc">Register all your services in one place. Track health, environment, and config for every app your team runs.</div>
+      </div>
+      <div class="feature-tile">
+        <div class="feature-icon" style="background:var(--green-lt)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+        <div class="feature-name">Unified Dashboard</div>
+        <div class="feature-desc">One view for incidents, alerts, resolution time, and app health — updated in real time without a page refresh.</div>
+      </div>
+      <div class="feature-tile">
+        <div class="feature-icon" style="background:var(--blue-lt)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#1d4ed8" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg></div>
+        <div class="feature-name">Team Settings</div>
+        <div class="feature-desc">Manage profiles, passwords, notification channels, and team access from a single settings panel.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS — emojis replaced with icons -->
+<section class="hiw-section">
+  <div class="container">
+    <span class="t-label">// SETUP</span>
+    <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,4vw,3rem);margin-top:.5rem;letter-spacing:-.025em" class="reveal">Get started in 3 steps.</h2>
+    <div class="hiw-grid">
+      <div class="hiw-card reveal" style="animation-delay:.05s">
+        <div class="hiw-num">1</div>
+        <div class="hiw-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 1 0-16 0"/></svg>
+        </div>
+        <div class="hiw-title">Create your account</div>
+        <div class="hiw-desc">Sign up in seconds with your email. No credit card required — your dashboard is ready immediately.</div>
+      </div>
+      <div class="hiw-card reveal" style="animation-delay:.12s">
+        <div class="hiw-num">2</div>
+        <div class="hiw-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        </div>
+        <div class="hiw-title">Register your applications</div>
+        <div class="hiw-desc">Add services to the registry and generate API keys to start sending events from your infrastructure.</div>
+      </div>
+      <div class="hiw-card reveal" style="animation-delay:.19s">
+        <div class="hiw-num">3</div>
+        <div class="hiw-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="hiw-title">Monitor and respond</div>
+        <div class="hiw-desc">Get instant alerts when something breaks. Manage incidents and watch AI resolve them automatically.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO DEMO SECTION (replaces pricing/CTA) -->
+<section class="video-section" id="demo">
+  <div class="container">
+    <div class="video-header">
+      <div>
+        <span class="t-label">// DEMO</span>
+        <h2 style="font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,4vw,3rem);margin-top:.5rem;letter-spacing:-.025em" class="reveal">See VigilAI in action.</h2>
+      </div>
+      <a href="/signup.html" class="btn btn-primary reveal">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        Try it yourself
+      </a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 320px;gap:2rem;align-items:start" class="video-grid">
+      <!-- Video player -->
+      <div class="video-frame-wrap reveal">
+        <div class="video-frame-bar">
+          <div class="video-frame-bar-dots">
+            <div class="video-frame-bar-dot" style="background:#ef4444"></div>
+            <div class="video-frame-bar-dot" style="background:#f59e0b"></div>
+            <div class="video-frame-bar-dot" style="background:#22c55e"></div>
+          </div>
+          <span style="font-family:var(--font-mono);font-size:.7rem;color:rgba(255,255,255,.5)">vigil-ai — product demo</span>
+          <span style="font-family:var(--font-mono);font-size:.65rem;color:#22c55e;font-weight:600">● DEMO</span>
+        </div>
+        <div class="video-inner">
+          <!--
+            TO ADD YOUR VIDEO:
+            Option A — bucket/CDN video file:
+              <video src="https://your-bucket.s3.amazonaws.com/demo.mp4" controls autoplay muted loop playsinline></video>
+            Option B — YouTube embed:
+              <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=0&rel=0" allowfullscreen></iframe>
+            Option C — Vimeo embed:
+              <iframe src="https://player.vimeo.com/video/YOUR_VIDEO_ID" allowfullscreen></iframe>
+          -->
+          <div class="video-placeholder">
+            <div class="video-play-btn">
+              <span class="ping-ring"></span>
+            </div>
+            <div class="video-placeholder-label">Insert your demo video URL above</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Side stats -->
+      <div class="video-side-stats reveal" style="animation-delay:.1s">
+        <div style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-muted);margin-bottom:.5rem">What you'll see</div>
+
+        <div class="video-stat-card green">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+            <span style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.07em">Real-time scanning</span>
+          </div>
+          <div class="video-stat-val" style="color:#22c55e">&lt;30s</div>
+          <div class="video-stat-label">Incident detection time</div>
+        </div>
+
+        <div class="video-stat-card red">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/></svg>
+            <span style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.07em">Auto triage</span>
+          </div>
+          <div class="video-stat-val" style="color:#ef4444">100%</div>
+          <div class="video-stat-label">Incidents auto-classified</div>
+        </div>
+
+        <div class="video-stat-card blue">
+          <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.5rem">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#3b82f6" stroke-width="1.8" stroke-linecap="round"><circle cx="4" cy="4" r="2"/><circle cx="12" cy="4" r="2"/><circle cx="4" cy="12" r="2"/><path d="M4 6v4M6 4h2a2 2 0 0 1 2 2v2"/></svg>
+            <span style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;color:var(--ink-muted);text-transform:uppercase;letter-spacing:.07em">AI fix → PR</span>
+          </div>
+          <div class="video-stat-val" style="color:#3b82f6">8min</div>
+          <div class="video-stat-label">Avg time to merged fix</div>
+        </div>
+
+        <div class="live-now-card" style="background:#0f172a;border:1.5px solid rgba(255,255,255,.1);padding:1.25rem;margin-top:1rem;border-radius:8px">
+          <div style="font-family:var(--font-mono);font-size:.65rem;font-weight:700;color:rgba(255,255,255,.45);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.85rem;display:flex;align-items:center;gap:.5rem">
+            <span style="width:.45rem;height:.45rem;border-radius:50%;background:#22c55e;display:inline-block;animation:pulse 1.5s ease-in-out infinite"></span>
+            Live right now
+          </div>
+          <div style="display:flex;flex-direction:column;gap:.6rem">
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:.6rem"><span style="width:.45rem;height:.45rem;border-radius:50%;background:#22c55e;flex-shrink:0;position:relative"><span class="ping-ring" style="color:#22c55e"></span></span><span style="font-family:var(--font-mono);font-size:.65rem;color:rgba(255,255,255,.7)">4 services monitored</span></div>
+              <span style="font-family:var(--font-mono);font-size:.6rem;color:#4ade80;font-weight:700">ALL OK</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:.6rem"><span style="width:.45rem;height:.45rem;border-radius:50%;background:#fbbf24;flex-shrink:0"></span><span style="font-family:var(--font-mono);font-size:.65rem;color:rgba(255,255,255,.7)">1 warning active</span></div>
+              <span style="font-family:var(--font-mono);font-size:.6rem;color:#fbbf24;font-weight:700">WARN</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:.6rem"><span style="width:.45rem;height:.45rem;border-radius:50%;background:#3b82f6;flex-shrink:0"></span><span style="font-family:var(--font-mono);font-size:.65rem;color:rgba(255,255,255,.7)">2 PRs pending review</span></div>
+              <span style="font-family:var(--font-mono);font-size:.6rem;color:#60a5fa;font-weight:700">→ PR</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-inner">
+    <span class="t-label" style="color:rgba(255,255,255,.35)">// GET STARTED</span>
+    <div class="cta-headline reveal" style="margin-top:.75rem">Start monitoring.<br/>Ship with confidence.</div>
+    <p class="cta-sub reveal" style="animation-delay:.06s">Join teams already using VigilAI to catch and resolve incidents before users notice.</p>
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap" class="reveal">
+      <a href="/signup.html" class="btn btn-white">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg>
+        Create free account
+      </a>
+      <a href="/login.html" class="btn btn-outline-white">I already have an account →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div style="display:flex;align-items:center;gap:.75rem">
+      <div style="width:2rem;height:2rem;background:var(--ink);display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative">
+        <svg width="22" height="13" viewBox="0 0 100 60">
+          <ellipse cx="50" cy="30" rx="44" ry="27" fill="var(--surface)"/>
+          <circle cx="50" cy="30" r="16" fill="#22c55e"/>
+          <circle cx="50" cy="30" r="8" fill="var(--ink)"/>
+          <circle cx="56" cy="25" r="3.5" fill="rgba(255,255,255,.5)"/>
+          <path fill="var(--ink)" d="M 6 30 Q 50 3 94 30 L 100 0 L 0 0 Z"/>
+          <path fill="var(--ink)" d="M 6 30 Q 50 57 94 30 L 100 60 L 0 60 Z"/>
+          <path fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5" d="M 6 30 Q 50 3 94 30 Q 50 57 6 30"/>
+        </svg>
+      </div>
+      <span style="font-family:var(--font-display);font-weight:700;font-size:.9375rem">VigilAI</span>
+      <span style="font-family:var(--font-body);font-size:.8rem;color:var(--ink-muted)">— Production monitoring, made intelligent.</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:.5rem">
+      <span style="width:.45rem;height:.45rem;border-radius:50%;background:#22c55e;position:relative"><span class="ping-ring" style="color:#22c55e"></span></span>
+      <span style="font-family:var(--font-mono);font-size:.7rem;color:var(--ink-muted);font-weight:600">All systems operational</span>
+    </div>
+  </div>
+</footer>
+
+</div><!-- /#page-content -->
+
+<script>
+/* ── INTRO ── */
+(function(){
+  const $=id=>document.getElementById(id);
+  const wait=(fn,ms)=>setTimeout(fn,ms);
+  const intro=$('vigil-intro'),eyeWrap=$('intro-eye-wrap'),iris=$('introIris');
+  const lL=$('laser-left'),lR=$('laser-right'),flash=$('laser-flash');
+  const wm=$('intro-wordmark'),cTop=$('intro-curtain-top'),cBot=$('intro-curtain-bot'),page=$('page-content');
+
+  function posBeams(){
+    const svg=$('introEye'); if(!svg)return;
+    const r=svg.getBoundingClientRect(), cy=r.top+r.height*.5;
+    lL.style.top=cy+'px'; lR.style.top=cy+'px';
+  }
+  posBeams(); window.addEventListener('resize',posBeams);
+
+  wait(()=>{cTop.classList.add('pulled');cBot.classList.add('pulled');eyeWrap.classList.add('open')},150);
+  wait(()=>{
+    posBeams(); flash.classList.add('on');
+    lL.classList.add('fire'); lR.classList.add('fire');
+    wait(()=>{
+      lL.style.width='52vw';lL.style.opacity='1';lL.style.animation='none';
+      lR.style.width='52vw';lR.style.opacity='1';lR.style.animation='none';
+      flash.classList.remove('on');flash.classList.add('off');
+    },580);
+  },900);
+  wait(()=>{lL.style.transform='translateY(-50%) rotate(-12deg)';lR.style.transform='translateY(-50%) rotate(12deg)';iris.style.transform='translateY(-14px)'},1150);
+  wait(()=>{lL.style.transform='translateY(-50%) rotate(12deg)';lR.style.transform='translateY(-50%) rotate(-12deg)';iris.style.transform='translateY(14px)'},1750);
+  wait(()=>{lL.style.transform='translateY(-50%) rotate(0deg)';lR.style.transform='translateY(-50%) rotate(0deg)';iris.style.transform='translateY(0)'},2300);
+  wait(()=>wm.classList.add('show'),2700);
+  wait(()=>{
+    lL.style.animation='';lR.style.animation='';lL.style.width='';lR.style.width='';lL.style.opacity='';lR.style.opacity='';
+    void lL.offsetWidth;void lR.offsetWidth;
+    lL.classList.remove('fire');lR.classList.remove('fire');lL.classList.add('retract');lR.classList.add('retract');
+  },3400);
+  wait(()=>{
+    cTop.classList.add('split');cBot.classList.add('split');page.classList.add('revealed');
+    eyeWrap.style.transition='opacity .4s ease,transform .6s cubic-bezier(.76,0,.24,1)';
+    eyeWrap.style.opacity='0';eyeWrap.style.transform='scale(.9)';
+  },3800);
+  wait(()=>{intro.classList.add('done');document.body.classList.remove('intro-active')},4700);
+})();
+
+/* ── NAV EYE SCAN LINE — JS animation so it actually works ── */
+(function(){
+  const bar=document.getElementById('navScanLine');
+  if(!bar)return;
+  let x=-6, dir=1, animId;
+  function step(){
+    x+=1.8*dir;
+    if(x>100){x=100;dir=-1;}
+    if(x<-6){x=-6;dir=1;}
+    bar.setAttribute('x',x);
+    animId=requestAnimationFrame(step);
+  }
+  animId=requestAnimationFrame(step);
+})();
+
+/* ── DARK MODE TOGGLE ── */
+const toggleBtn=document.getElementById('themeToggle');
+const html=document.documentElement;
+// Restore saved preference
+if(localStorage.getItem('vigil-theme')==='dark') html.setAttribute('data-theme','dark');
+toggleBtn.addEventListener('click',()=>{
+  const isDark=html.getAttribute('data-theme')==='dark';
+  html.setAttribute('data-theme',isDark?'light':'dark');
+  localStorage.setItem('vigil-theme',isDark?'light':'dark');
+});
+
+/* ── REDIRECT LOGGED IN ── */
+if(localStorage.getItem('auth_token')){
+  document.querySelectorAll('a[href="/login.html"],a[href="/signup.html"]').forEach(a=>{
+    if(!a.textContent.includes('account')){a.href='/dashboard.html';a.textContent='Go to Dashboard →';}
+  });
+}
+
+/* ── SMOOTH SCROLL ── */
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{e.preventDefault();document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'})});
+});
+
+/* ── SCROLL REVEALS ── */
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');io.unobserve(e.target);}});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+/* ── LOG STREAM ── */
+const LOGS=[
+  {ts:'08:43:01',cls:'log-fix',tag:'SCAN',msg:'Scanning 4 services across 2 environments…'},
+  {ts:'08:43:02',cls:'log-ok',tag:'OK',msg:'api-gateway · 198ms · p99 stable'},
+  {ts:'08:43:03',cls:'log-warn',tag:'WARN',msg:'bg-worker · queue depth 912 (threshold 500)'},
+  {ts:'08:43:04',cls:'log-err',tag:'ERR',msg:'postgres-db · connection pool exhausted'},
+  {ts:'08:43:05',cls:'log-ai',tag:'AI',msg:'Root cause: missing index on users.created_at'},
+  {ts:'08:43:06',cls:'log-fix',tag:'FIX',msg:'Generating patch · CREATE INDEX CONCURRENTLY…'},
+  {ts:'08:43:07',cls:'log-pr',tag:'PR',msg:'Opened PR #2848 · fix/db-index-users_'},
+];
+let logOff=0;
+function refreshLog(){
+  const s=document.getElementById('heroLog');if(!s)return;
+  s.innerHTML='';
+  [...LOGS.slice(logOff%LOGS.length),...LOGS].slice(0,7).forEach((l,i)=>{
+    const d=document.createElement('div');
+    d.className='log-entry';
+    d.style.cssText=`display:flex;gap:.6rem;margin-bottom:.3rem;font-size:.7rem;animation-delay:${i*.3}s`;
+    d.innerHTML=`<span class="log-ts">${l.ts}</span><span class="${l.cls}">[${l.tag}]</span><span class="log-info">${l.msg}</span>`;
+    s.appendChild(d);
+  });
+  logOff++;
+}
+refreshLog();
+setInterval(refreshLog,8000);
+</script>
+</body>
+</html>

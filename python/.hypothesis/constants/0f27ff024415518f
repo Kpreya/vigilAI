@@ -1,0 +1,4 @@
+# file: N:\Downloads\vigil\python\src\vigilai\redactor.py
+# hypothesis_version: 6.151.9
+
+['[CARD_REDACTED]', '[EMAIL_REDACTED]', '[IP_REDACTED]', '[PHONE_REDACTED]', '[REDACTED]', '[SSN_REDACTED]', '[TOKEN_REDACTED]', 'access_token', 'api-key', 'api_key', 'apikey', 'auth', 'authorization', 'context', 'credential', 'message', 'passwd', 'password', 'private_key', 'privatekey', 'pwd', 'refresh_token', 'secret', 'session_id', 'sessionid', 'stack', 'token']

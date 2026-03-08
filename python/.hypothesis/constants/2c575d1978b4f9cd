@@ -1,0 +1,4 @@
+# file: N:\Downloads\vigil\python\src\vigilai\config.py
+# hypothesis_version: 6.151.9
+
+[100, '.json', '.vigilai.json', '1000', '60000', 'VIGILAI_API_KEY', 'VIGILAI_GITHUB_OWNER', 'VIGILAI_GITHUB_REPO', 'VIGILAI_GITHUB_TOKEN', 'anomaly_detection', 'api_key', 'assignees', 'base_branch', 'branch_prefix', 'buffer_size', 'cpu_usage', 'deduplication_window', 'enable_pii_redaction', 'error_rate', 'github', 'interval', 'labels', 'main', 'memory_usage', 'monitoring', 'owner', 'r', 'redaction_rules', 'repo', 'response_time', 'sampling_rate', 'security', 'sensitivity', 'thresholds', 'token', 'utf-8', 'vigilai-fix', 'vigilai.config.json', 'vigilai.config.yaml']

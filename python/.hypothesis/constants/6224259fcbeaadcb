@@ -1,0 +1,4 @@
+# file: N:\Downloads\vigil\python\src\vigilai\api_client.py
+# hypothesis_version: 6.151.9
+
+[1.0, 32.0, 200, 401, 403, 1000, '/v1/monitoring/data', 'Authorization', 'Content-Type', 'Invalid API key', 'Max retries exceeded', 'application/json', 'context', 'errors', 'message', 'metrics', 'name', 'stack', 'tags', 'timestamp', 'value']

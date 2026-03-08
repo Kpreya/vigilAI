@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Reference - VigilAI SDK</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="font-sans">
+    <!-- Navigation -->
+    <nav class="nav-bar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="../frontend/assets/vigilai_logo_transparent.png" alt="VigilAI" class="logo-img">
+                <span class="brand-name">VigilAI SDK</span>
+                <span class="version-badge">v1.0.0</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Learn</a>
+                <a href="reference.html" class="nav-link active">Reference</a>
+                <a href="https://github.com/techiepookie/vigilai" class="nav-link">GitHub</a>
+            </div>
+            <button class="theme-toggle" id="themeToggle">
+                <span class="material-symbols-outlined">dark_mode</span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="docs-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">CORE API</h3>
+                <ul class="sidebar-list">
+                    <li><a href="#vigilai" class="sidebar-link active">VigilAI</a></li>
+                    <li><a href="#configuration" class="sidebar-link">Configuration</a></li>
+                    <li><a href="#types" class="sidebar-link">Types</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">MONITORING</h3>
+                <ul class="sidebar-list">
+                    <li><a href="#monitoring-agent" class="sidebar-link">MonitoringAgent</a></li>
+                    <li><a href="#metrics" class="sidebar-link">Metrics</a></li>
+                    <li><a href="#errors" class="sidebar-link">Error Tracking</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">DETECTION</h3>
+                <ul class="sidebar-list">
+                    <li><a href="#anomaly-detector" class="sidebar-link">AnomalyDetector</a></li>
+                    <li><a href="#incidents" class="sidebar-link">Incidents</a></li>
+                </ul>
+            </div>
+            <div class="sidebar-section">
+                <h3 class="sidebar-title">AI & AUTOMATION</h3>
+                <ul class="sidebar-list">
+                    <li><a href="#ai-diagnostician" class="sidebar-link">AIDiagnostician</a></li>
+                    <li><a href="#code-generator" class="sidebar-link">CodeGenerator</a></li>
+                    <li><a href="#github-integrator" class="sidebar-link">GitHubIntegrator</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="content">
+            <div class="breadcrumb">
+                <a href="index.html">LEARN VIGILAI</a> <span>›</span> <span>API REFERENCE</span>
+            </div>
+
+            <h1>API Reference</h1>
+            <p class="lead">Complete API documentation for the VigilAI SDK. Available for TypeScript/JavaScript and Python.</p>
+
+            <div class="code-tabs">
+                <button class="tab-button active" data-lang="typescript">TypeScript</button>
+                <button class="tab-button" data-lang="python">Python</button>
+            </div>
+
+            <!-- VigilAI Class -->
+            <h2 id="vigilai">VigilAI</h2>
+            <p>Main SDK class for monitoring and incident management.</p>
+
+            <h3>Constructor</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>new VigilAI(config: VigilAIConfig)</code></pre>
+            </div>
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>VigilAI(config: VigilAIConfig)</code></pre>
+            </div>
+
+            <div class="param-table-container">
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>config</code></td>
+                            <td><code>VigilAIConfig</code></td>
+                            <td><span class="badge badge-required">Yes</span></td>
+                            <td>Configuration object for the SDK</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Methods</h3>
+
+            <h4><code>initialize()</code></h4>
+            <p>Initialize the SDK and validate API key. Must be called before using other methods.</p>
+            
+            <div class="code-block" data-lang="typescript">
+                <pre><code>async initialize(): Promise&lt;void&gt;</code></pre>
+            </div>
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>async def initialize() -> None</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Example
+const vigilai = new VigilAI({ apiKey: 'your-key' });
+await vigilai.initialize();</code></pre>
+                <button class="copy-button" onclick="copyCode(this)">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </button>
+            </div>
+
+            <h4><code>expressMiddleware()</code></h4>
+            <p>Returns Express.js middleware for automatic monitoring.</p>
+            
+            <div class="code-block" data-lang="typescript">
+                <pre><code>expressMiddleware(): (req: Request, res: Response, next: NextFunction) => void</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Example
+import express from 'express';
+const app = express();
+app.use(vigilai.expressMiddleware());</code></pre>
+                <button class="copy-button" onclick="copyCode(this)">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </button>
+            </div>
+
+            <h4><code>nextMiddleware()</code></h4>
+            <p>Returns Next.js middleware for automatic monitoring.</p>
+            
+            <div class="code-block" data-lang="typescript">
+                <pre><code>async nextMiddleware(
+  request: NextRequest,
+  handler: (req: NextRequest) => Promise&lt;NextResponse&gt;
+): Promise&lt;NextResponse&gt;</code></pre>
+            </div>
+
+            <h4><code>django_middleware()</code></h4>
+            <p>Returns Django middleware class for automatic monitoring.</p>
+            
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>def django_middleware() -> Type[Middleware]</code></pre>
+            </div>
+
+            <h4><code>fastapi_middleware()</code></h4>
+            <p>Returns FastAPI middleware for automatic monitoring.</p>
+            
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>def fastapi_middleware() -> Callable</code></pre>
+            </div>
+
+            <h4><code>trackMetric()</code></h4>
+            <p>Track a custom metric value.</p>
+            
+            <div class="code-block" data-lang="typescript">
+                <pre><code>trackMetric(name: string, value: number): void</code></pre>
+            </div>
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>def track_metric(name: str, value: float) -> None</code></pre>
+            </div>
+
+            <div class="param-table-container">
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>name</code></td>
+                            <td><code>string</code></td>
+                            <td>Metric name (e.g., 'user.login.count')</td>
+                        </tr>
+                        <tr>
+                            <td><code>value</code></td>
+                            <td><code>number</code></td>
+                            <td>Numeric metric value</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Example
+vigilai.trackMetric('user.login.count', 1);
+vigilai.trackMetric('cache.hit_rate', 0.95);
+vigilai.trackMetric('queue.size', 42);</code></pre>
+                <button class="copy-button" onclick="copyCode(this)">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </button>
+            </div>
+
+            <h4><code>trackError()</code></h4>
+            <p>Track an error with optional context information.</p>
+            
+            <div class="code-block" data-lang="typescript">
+                <pre><code>trackError(error: Error, context?: Record&lt;string, any&gt;): void</code></pre>
+            </div>
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>def track_error(error: Exception, context: Optional[Dict[str, Any]] = None) -> None</code></pre>
+            </div>
+
+            <div class="param-table-container">
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>error</code></td>
+                            <td><code>Error</code></td>
+                            <td><span class="badge badge-required">Yes</span></td>
+                            <td>Error object to track</td>
+                        </tr>
+                        <tr>
+                            <td><code>context</code></td>
+                            <td><code>object</code></td>
+                            <td><span class="badge badge-optional">No</span></td>
+                            <td>Additional context information</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Example
+try {
+  await performDatabaseQuery();
+} catch (error) {
+  vigilai.trackError(error as Error, {
+    operation: 'database_query',
+    userId: '12345',
+    query: 'SELECT * FROM users'
+  });
+}</code></pre>
+                <button class="copy-button" onclick="copyCode(this)">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </button>
+            </div>
+
+            <h4><code>healthCheck()</code></h4>
+            <p>Get SDK health status and metrics.</p>
+            
+            <div class="code-block" data-lang="typescript">
+                <pre><code>healthCheck(): HealthStatus</code></pre>
+            </div>
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>def health_check() -> HealthStatus</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Example
+const health = vigilai.healthCheck();
+console.log(health.status); // 'healthy' | 'degraded' | 'unhealthy'
+console.log(health.metrics.bufferSize);
+console.log(health.metrics.transmissionSuccessRate);</code></pre>
+                <button class="copy-button" onclick="copyCode(this)">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </button>
+            </div>
+
+            <h4><code>shutdown()</code></h4>
+            <p>Gracefully shutdown the SDK and flush remaining data.</p>
+            
+            <div class="code-block" data-lang="typescript">
+                <pre><code>async shutdown(): Promise&lt;void&gt;</code></pre>
+            </div>
+            <div class="code-block hidden" data-lang="python">
+                <pre><code>async def shutdown() -> None</code></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><code>// Example
+process.on('SIGTERM', async () => {
+  await vigilai.shutdown();
+  process.exit(0);
+});</code></pre>
+                <button class="copy-button" onclick="copyCode(this)">
+                    <span class="material-symbols-outlined">content_copy</span>
+                </button>
+            </div>
+
+            <!-- Configuration -->
+            <h2 id="configuration">Configuration</h2>
+            <p>Configuration options for the VigilAI SDK.</p>
+
+            <h3>VigilAIConfig</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>interface VigilAIConfig {
+  apiKey: string;
+  monitoring?: MonitoringConfig;
+  thresholds?: ThresholdsConfig;
+  anomalyDetection?: AnomalyDetectionConfig;
+  security?: SecurityConfig;
+}</code></pre>
+            </div>
+
+            <div class="param-table-container">
+                <table class="param-table">
+                    <thead>
+                        <tr>
+                            <th>Property</th>
+                            <th>Type</th>
+                            <th>Required</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>apiKey</code></td>
+                            <td><code>string</code></td>
+                            <td><span class="badge badge-required">Yes</span></td>
+                            <td>Your VigilAI API key</td>
+                        </tr>
+                        <tr>
+                            <td><code>monitoring</code></td>
+                            <td><code>MonitoringConfig</code></td>
+                            <td><span class="badge badge-optional">No</span></td>
+                            <td>Monitoring configuration</td>
+                        </tr>
+                        <tr>
+                            <td><code>thresholds</code></td>
+                            <td><code>ThresholdsConfig</code></td>
+                            <td><span class="badge badge-optional">No</span></td>
+                            <td>Performance thresholds</td>
+                        </tr>
+                        <tr>
+                            <td><code>anomalyDetection</code></td>
+                            <td><code>AnomalyDetectionConfig</code></td>
+                            <td><span class="badge badge-optional">No</span></td>
+                            <td>Anomaly detection settings</td>
+                        </tr>
+                        <tr>
+                            <td><code>security</code></td>
+                            <td><code>SecurityConfig</code></td>
+                            <td><span class="badge badge-optional">No</span></td>
+                            <td>Security and privacy settings</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>MonitoringConfig</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>interface MonitoringConfig {
+  interval?: number;        // Default: 60000 (60 seconds)
+  samplingRate?: number;    // Default: 1.0 (100%)
+  bufferSize?: number;      // Default: 1000
+}</code></pre>
+            </div>
+
+            <h3>ThresholdsConfig</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>interface ThresholdsConfig {
+  responseTime?: number;    // Default: 1000 (ms)
+  errorRate?: number;       // Default: 5 (%)
+  memoryUsage?: number;     // Default: 500 (MB)
+  cpuUsage?: number;        // Default: 80 (%)
+}</code></pre>
+            </div>
+
+            <h3>AnomalyDetectionConfig</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>interface AnomalyDetectionConfig {
+  sensitivity?: number;           // Default: 2 (Z-score)
+  deduplicationWindow?: number;   // Default: 300000 (5 minutes)
+}</code></pre>
+            </div>
+
+            <h3>SecurityConfig</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>interface SecurityConfig {
+  enablePIIRedaction?: boolean;        // Default: true
+  dataRetentionPeriod?: number;        // Default: 7 days
+  redactionRules?: RedactionRule[];
+}</code></pre>
+            </div>
+
+            <!-- Types -->
+            <h2 id="types">Types</h2>
+
+            <h3>HealthStatus</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>interface HealthStatus {
+  status: 'healthy' | 'degraded' | 'unhealthy';
+  metrics: {
+    bufferSize: number;
+    transmissionSuccessRate: number;
+    lastTransmission: string;
+  };
+}</code></pre>
+            </div>
+
+            <h3>Incident</h3>
+            <div class="code-block" data-lang="typescript">
+                <pre><code>interface Incident {
+  id: string;
+  type: 'error' | 'performance' | 'anomaly';
+  severity: 'low' | 'medium' | 'high' | 'critical';
+  description: string;
+  timestamp: number;
+  metadata: Record&lt;string, any&gt;;
+}</code></pre>
+            </div>
+
+            <div class="next-steps">
+                <h3>Next Steps</h3>
+                <div class="card-grid">
+                    <a href="index.html" class="next-card">
+                        <span class="material-symbols-outlined">school</span>
+                        <h4>Quick Start Guide</h4>
+                        <p>Learn how to integrate VigilAI</p>
+                    </a>
+                    <a href="index.html#express" class="next-card">
+                        <span class="material-symbols-outlined">code</span>
+                        <h4>Framework Examples</h4>
+                        <p>See integration examples</p>
+                    </a>
+                    <a href="https://github.com/techiepookie/vigilai" class="next-card">
+                        <span class="material-symbols-outlined">code_blocks</span>
+                        <h4>GitHub Repository</h4>
+                        <p>View source code</p>
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h4>Documentation</h4>
+                <ul>
+                    <li><a href="index.html">Quick Start</a></li>
+                    <li><a href="reference.html">API Reference</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/techiepookie/vigilai">GitHub</a></li>
+                    <li><a href="https://github.com/techiepookie/vigilai/issues">Issues</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>More</h4>
+                <ul>
+                    <li><a href="#">Changelog</a></li>
+                    <li><a href="#">License</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 VigilAI. MIT Licensed.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
