@@ -1,4 +1,0 @@
-# file: N:\Downloads\vigil\python\src\vigilai\__init__.py
-# hypothesis_version: 6.151.9
-
-['0.1.0', 'AIDiagnostician', 'AnomalyDetector', 'Baseline', 'CodeGenerator', 'CodeLocation', 'ComponentHealth', 'Diagnosis', 'ErrorEvent', 'FileChange', 'FixProposal', 'GitHubConfig', 'GitHubIntegrator', 'HealthStatus', 'Incident', 'IncidentStatus', 'IncidentType', 'Metric', 'MonitoringData', 'PullRequest', 'Severity', 'VigilAI', 'VigilAIConfig']

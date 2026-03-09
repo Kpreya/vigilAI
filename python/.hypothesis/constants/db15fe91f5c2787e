@@ -1,4 +1,0 @@
-# file: N:\Downloads\vigil\python\src\vigilai\code_generator.py
-# hypothesis_version: 6.151.9
-
-[120, 1000, '--context', '--diagnosis', '--files', '.js', '.jsx', '.py', '.ts', '.tsx', 'category', 'changes', 'codeLocation', 'confidence', 'description', 'diff', 'explanation', 'file', 'fix', 'function', 'generate', 'incidentId', 'kiro', 'line', 'newContent', 'oldContent', 'path', 'rootCause', 'suggestedFix', 'testCases', 'utf-8', 'w']

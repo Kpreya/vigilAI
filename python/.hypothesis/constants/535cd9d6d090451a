@@ -1,4 +1,0 @@
-# file: N:\Downloads\vigil\python\src\vigilai\anomaly_detector.py
-# hypothesis_version: 6.151.9
-
-[0.0, 0.2, 1.5, 2.5, 1000, 'cpu', 'critical', 'detected', 'detection_method', 'duration', 'endpoint', 'error', 'high', 'http.error_rate', 'http.response_time', 'low', 'medium', 'memory', 'performance', 'resource', 'system.cpu_usage', 'system.memory_usage', 'threshold', 'z-score', 'z_score']

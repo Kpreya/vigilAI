@@ -1,4 +1,0 @@
-# file: N:\Downloads\vigil\python\src\vigilai\monitoring_agent.py
-# hypothesis_version: 6.151.9
-
-[0.1, 1.0, 2.0, 1000.0, 100, 1000, 1024, 'attempts', 'context', 'endpoint', 'errors_count', 'failures', 'http.response_time', 'http.status', 'http.throughput', 'last_error', 'last_success', 'message', 'method', 'metrics_count', 'name', 'stack', 'status', 'success_rate', 'successes', 'system.cpu.usage', 'system.memory.rss', 'tags', 'timestamp', 'value']
