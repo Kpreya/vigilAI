@@ -1,0 +1,46 @@
+services:
+  # Next.js Backend (Platform) - connects to AWS Aurora
+  backend:
+    build:
+      context: ./platform
+      dockerfile: Dockerfile
+    container_name: vigilai-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL:-http://localhost:3000}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost}
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+    networks:
+      - vigilai-network
+    command: sh -c "npx prisma migrate deploy && npm start"
+
+  # Nginx Reverse Proxy (serves static files + proxies API)
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: vigilai-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    networks:
+      - vigilai-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+networks:
+  vigilai-network:
+    driver: bridge

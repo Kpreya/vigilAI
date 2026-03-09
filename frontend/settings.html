@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"/>
+    
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>VigilAI Settings</title>
+
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&amp;family=Inter:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+
+<style type="text/tailwindcss">
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f0ea; 
+            border-left: 1px solid #000;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e2e2e2; 
+            border: 1px solid #000;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #d4d4d4; 
+        }
+        .paper-grid {
+            background-size: 20px 20px;
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+        }
+        .brutal-checkbox {
+            @apply appearance-none w-5 h-5 border-2 border-black bg-white checked:bg-black checked:relative cursor-pointer;
+        }
+        .brutal-checkbox:checked::after {
+            content: '✓';
+            @apply absolute inset-0 text-white flex items-center justify-center font-bold text-xs;
+        }
+    </style>
+<link rel="stylesheet" href="/css/tailwind.css">
+<link rel="stylesheet" href="/css/theme.css">
+
+</head>
+<body class="bg-paper-bg text-black font-sans h-screen overflow-hidden flex selection:bg-black selection:text-white">
+<aside class="w-64 bg-sidebar-bg border-r-2 border-black flex flex-col h-full z-20 flex-shrink-0">
+<div class="px-6 flex items-center space-x-3 bg-white h-[89px] py-6 border-b-2 border-black">
+<img src="/assets/vigilai_logo_dark_bg.png" alt="VigilAI" class="h-10 w-auto">
+<h1 class="font-display font-bold text-2xl tracking-tight text-black">VigilAI</h1>
+</div>
+<nav class="flex-1 overflow-y-auto py-6 px-4 space-y-2">
+<a class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-black hover:bg-white hover:border hover:border-black hover:shadow-brutal-sm transition-all duration-150 group" href="/dashboard.html">
+<span class="material-symbols-outlined text-xl">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-black hover:bg-white hover:border hover:border-black hover:shadow-brutal-sm transition-all duration-150 group" href="/incidents.html">
+<span class="material-symbols-outlined text-xl">warning</span>
+<span>Incidents</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-black hover:bg-white hover:border hover:border-black hover:shadow-brutal-sm transition-all duration-150 group" href="/pull_request.html">
+<span class="material-symbols-outlined text-xl transform rotate-90">call_split</span>
+<span>Pull Requests</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-black hover:bg-white hover:border hover:border-black hover:shadow-brutal-sm transition-all duration-150 group" href="/applications.html">
+<span class="material-symbols-outlined text-xl">grid_view</span>
+<span>Applications</span>
+</a>
+<div class="pt-6 pb-2">
+<p class="px-4 text-xs font-mono font-bold text-slate-500 uppercase tracking-wider">Configuration</p>
+</div>
+<a class="flex items-center space-x-3 px-4 py-3 text-slate-600 hover:text-black hover:bg-white hover:border hover:border-black hover:shadow-brutal-sm transition-all duration-150 group" href="/api_key.html">
+<span class="material-symbols-outlined text-xl">vpn_key</span>
+<span>API Keys</span>
+</a>
+<a class="flex items-center space-x-3 px-4 py-3 bg-white border border-black shadow-brutal-sm text-black font-semibold group" href="/settings.html">
+<span class="material-symbols-outlined text-xl">settings</span>
+<span>Settings</span>
+</a>
+</nav>
+<div class="p-4 border-t border-black bg-white">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 bg-black border border-black flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white text-lg">person</span>
+</div>
+<div class="flex-1 min-w-0">
+<p class="text-sm font-bold text-black truncate" data-user-name>User</p>
+<p class="text-xs text-slate-500 truncate font-mono" data-user-email>loading...</p>
+</div>
+<button data-logout title="Sign out" class="text-slate-400 hover:text-red-600 transition-colors">
+<span class="material-symbols-outlined text-lg">logout</span>
+</button>
+</div>
+</div>
+</aside>
+<main class="flex-1 h-full overflow-y-auto bg-[#fafafa] paper-grid relative text-black">
+<header class="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b-2 border-black px-8 h-[89px]">
+<div class="flex justify-between items-center h-full py-6">
+<div class="flex items-center space-x-4">
+<h2 class="text-2xl font-display font-bold text-black flex items-center gap-2">
+<span class="material-symbols-outlined">settings</span> Settings
+                </h2>
+</div>
+<div class="flex items-center space-x-4">
+<div class="text-xs font-mono text-slate-500">Last synced: 14:02:21</div>
+</div>
+</div>
+</header>
+<div class="p-8 max-w-4xl mx-auto space-y-12">
+<section>
+<h3 class="text-3xl font-display font-bold text-black mb-2">Account Settings</h3>
+<p class="text-slate-500 font-mono text-sm uppercase tracking-wide">Manage your system preferences and user profile.</p>
+</section>
+
+<!-- Theme Settings -->
+<div class="bg-white border-2 border-black shadow-brutal p-8 space-y-8">
+<div class="border-b-2 border-black pb-4 flex justify-between items-center">
+<h4 class="text-xl font-bold font-display uppercase tracking-tight">Appearance</h4>
+<span class="material-symbols-outlined">palette</span>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="block text-xs font-mono font-bold text-slate-500 uppercase mb-4">Theme Mode</label>
+<div class="flex gap-4">
+<button id="theme-light-btn" class="flex-1 p-4 border-2 border-black bg-white hover:shadow-brutal transition-all group">
+<div class="flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-2xl">light_mode</span>
+<div class="text-left">
+<div class="font-bold font-mono text-sm">Light Mode</div>
+<div class="text-xs text-slate-500 font-mono">Default theme</div>
+</div>
+</div>
+</button>
+<button id="theme-dark-btn" class="flex-1 p-4 border-2 border-black bg-white hover:shadow-brutal transition-all group">
+<div class="flex items-center justify-center gap-3">
+<span class="material-symbols-outlined text-2xl">dark_mode</span>
+<div class="text-left">
+<div class="font-bold font-mono text-sm">Dark Mode</div>
+<div class="text-xs text-slate-500 font-mono">Easy on the eyes</div>
+</div>
+</div>
+</button>
+</div>
+<p class="text-xs font-mono text-slate-400 mt-4">Theme preference is saved automatically and syncs across all pages.</p>
+</div>
+</div>
+</div>
+
+<!-- Profile Information -->
+<div class="bg-white border-2 border-black shadow-brutal p-8 space-y-8">
+<div class="border-b-2 border-black pb-4">
+<h4 class="text-xl font-bold font-display uppercase tracking-tight">Profile Information</h4>
+</div>
+<div class="space-y-6">
+<div class="space-y-2">
+<label class="block text-xs font-mono font-bold text-slate-500 uppercase">Full Name</label>
+<input id="settings-name" class="w-full bg-white border-2 border-black p-3 font-mono text-sm focus:ring-0 focus:border-black focus:shadow-brutal-sm transition-all" placeholder="Your name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-mono font-bold text-slate-500 uppercase">Email Address</label>
+<input id="settings-email" class="w-full bg-slate-50 border-2 border-black p-3 font-mono text-sm text-slate-500 cursor-not-allowed" readonly type="email"/>
+<p class="text-[10px] font-mono text-slate-400">Email cannot be changed.</p>
+</div>
+<div id="settings-msg" class="hidden text-sm font-mono p-3 border-2"></div>
+<div class="flex justify-end pt-4">
+<button id="save-profile-btn" class="bg-black text-white px-8 py-3 text-sm font-bold font-mono border-2 border-black hover:bg-white hover:text-black hover:shadow-brutal transition-all active:translate-x-1 active:translate-y-1 active:shadow-none">
+SAVE CHANGES
+</button>
+</div>
+</div>
+</div>
+<div class="bg-white border-2 border-black shadow-brutal p-8 space-y-8">
+<div class="border-b-2 border-black pb-4 flex justify-between items-center">
+<h4 class="text-xl font-bold font-display uppercase tracking-tight">Notification Preferences</h4>
+<span class="material-symbols-outlined">notifications_active</span>
+</div>
+<div class="space-y-6">
+<div class="space-y-4">
+<label class="flex items-center space-x-4 group cursor-pointer">
+<input checked="" class="brutal-checkbox" type="checkbox"/>
+<span class="font-mono text-sm group-hover:underline">Email notifications for critical incidents</span>
+</label>
+<label class="flex items-center space-x-4 group cursor-pointer">
+<input checked="" class="brutal-checkbox" type="checkbox"/>
+<span class="font-mono text-sm group-hover:underline">Daily summary report (09:00 UTC)</span>
+</label>
+<label class="flex items-center space-x-4 group cursor-pointer">
+<input class="brutal-checkbox" type="checkbox"/>
+<span class="font-mono text-sm group-hover:underline">Browser desktop notifications</span>
+</label>
+<label class="flex items-center space-x-4 group cursor-pointer">
+<input checked="" class="brutal-checkbox" type="checkbox"/>
+<span class="font-mono text-sm group-hover:underline">Alerts for unassigned open PRs</span>
+</label>
+</div>
+<div class="pt-6 border-t border-black border-dashed flex justify-between items-center">
+<p class="text-[10px] font-mono text-slate-400">Settings last updated: 2 days ago</p>
+<button class="bg-white text-black px-8 py-3 text-sm font-bold font-mono border-2 border-black hover:bg-black hover:text-white hover:shadow-brutal transition-all active:translate-x-1 active:translate-y-1 active:shadow-none">
+                            UPDATE PREFERENCES
+                        </button>
+</div>
+</div>
+</div>
+<div class="border-2 border-dashed border-red-500 bg-red-50/50 p-8">
+<div class="flex items-center gap-3 text-red-600 mb-4">
+<span class="material-symbols-outlined">warning</span>
+<h4 class="text-lg font-bold font-display uppercase">Danger Zone</h4>
+</div>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+<div class="max-w-md">
+<p class="font-mono text-sm text-red-700">Disconnect from system and revoke all active sessions. This action cannot be undone.</p>
+</div>
+<button class="bg-white text-red-600 px-6 py-2 text-xs font-bold font-mono border-2 border-red-600 hover:bg-red-600 hover:text-white transition-all shadow-brutal-sm hover:shadow-none">
+                        REVOKE ACCESS
+                    </button>
+</div>
+</div>
+<footer class="text-center py-12">
+<p class="text-[10px] font-mono text-slate-400 tracking-widest uppercase">VigilAI System • Version 4.2.0-STABLE</p>
+</footer>
+</div>
+</main>
+
+<script type="module">
+import { initSidebar, getAuthHeaders, API_BASE } from '/js/shared-sidebar.js';
+initSidebar();
+
+// Populate form with user data from localStorage
+const user = JSON.parse(localStorage.getItem('auth_user') || '{}');
+document.getElementById('settings-name').value = user.name || '';
+document.getElementById('settings-email').value = user.email || '';
+
+// Save profile
+document.getElementById('save-profile-btn').addEventListener('click', async () => {
+  const name = document.getElementById('settings-name').value.trim();
+  const msg = document.getElementById('settings-msg');
+  if (!name) { msg.textContent = 'Name cannot be empty.'; msg.className = 'text-sm font-mono p-3 border-2 border-red-500 bg-red-50 text-red-700'; msg.classList.remove('hidden'); return; }
+  try {
+    const res = await fetch(`${API_BASE}/settings/profile`, { method: 'PATCH', headers: getAuthHeaders(), body: JSON.stringify({ name }) });
+    if (res.ok) {
+      const updated = await res.json();
+      const u = JSON.parse(localStorage.getItem('auth_user') || '{}');
+      u.name = name;
+      localStorage.setItem('auth_user', JSON.stringify(u));
+      msg.textContent = '✓ Profile updated successfully!';
+      msg.className = 'text-sm font-mono p-3 border-2 border-green-500 bg-green-50 text-green-700';
+    } else {
+      const e = await res.json();
+      msg.textContent = e.error || 'Update failed.';
+      msg.className = 'text-sm font-mono p-3 border-2 border-red-500 bg-red-50 text-red-700';
+    }
+    msg.classList.remove('hidden');
+    setTimeout(() => msg.classList.add('hidden'), 4000);
+  } catch(e) { console.error(e); }
+});
+</script>
+<script type="module"><script type="module">
+import themeManager from '/js/theme.js';
+</script>
+<script type="module">
+import { initSidebar } from '/js/shared-sidebar.js';
+import themeManager from '/js/theme.js';
+
+initSidebar();
+
+// Theme toggle functionality
+const lightBtn = document.getElementById('theme-light-btn');
+const darkBtn = document.getElementById('theme-dark-btn');
+
+function updateThemeButtons() {
+  const currentTheme = themeManager.getTheme();
+  if (currentTheme === 'light') {
+    // Light mode is active - show light button as selected
+    lightBtn.classList.add('shadow-brutal', 'bg-white');
+    lightBtn.classList.remove('bg-black', 'text-white', 'shadow-none');
+    // Dark button is inactive
+    darkBtn.classList.remove('shadow-brutal', 'bg-black', 'text-white');
+    darkBtn.classList.add('bg-white', 'opacity-60');
+  } else {
+    // Dark mode is active - show dark button as selected
+    darkBtn.classList.add('shadow-brutal', 'bg-white');
+    darkBtn.classList.remove('bg-black', 'text-white', 'shadow-none');
+    // Light button is inactive
+    lightBtn.classList.remove('shadow-brutal', 'bg-black', 'text-white');
+    lightBtn.classList.add('bg-white', 'opacity-60');
+  }
+}
+
+lightBtn.addEventListener('click', () => {
+  themeManager.setTheme('light');
+  updateThemeButtons();
+});
+
+darkBtn.addEventListener('click', () => {
+  themeManager.setTheme('dark');
+  updateThemeButtons();
+});
+
+// Initialize
+updateThemeButtons();
+</script>
+</body></html>
+

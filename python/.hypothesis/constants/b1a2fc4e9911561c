@@ -1,0 +1,4 @@
+# file: N:\Downloads\vigil\python\src\vigilai\ai_diagnostician.py
+# hypothesis_version: 6.151.9
+
+[0.3, 0.5, 200, 1000, '    "line": 123,', '  "codeLocation": {', '  },', '## Context', '## Errors', '## Incident Details', '## Metrics', 'Authorization', 'Content-Type', '\\{[\\s\\S]*\\}', '```', '```json', 'application/json', 'category', 'choices', 'codeLocation', 'confidence', 'configuration', 'content', 'deepseek-chat', 'dependency', 'error', 'explanation', 'file', 'function', 'line', 'logic_error', 'max_tokens', 'memory_leak', 'message', 'messages', 'model', 'performance', 'resource', 'resource_exhaustion', 'role', 'rootCause', 'suggestedFix', 'system', 'temperature', 'unknown', 'user', '{', '}']

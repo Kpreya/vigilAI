@@ -1,0 +1,63 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --paper-bg: #fcfcfc;
+    --paper-off-white: #f3f4f6;
+    --border-dark: #000000;
+    --sidebar-bg: #f1f0ea;
+  }
+
+  ::selection {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  body {
+    background-color: #fcfcfc;
+    color: #000000;
+  }
+}
+
+@layer utilities {
+  .paper-grid {
+    background-size: 20px 20px;
+    background-image:
+      linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+  }
+
+  .shadow-brutal {
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .shadow-brutal-sm {
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
+  }
+
+  .shadow-brutal-hover {
+    box-shadow: 6px 6px 0px 0px rgba(0, 0, 0, 1);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f0ea;
+  border-left: 1px solid #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2e2e2;
+  border: 1px solid #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #d4d4d4;
+}

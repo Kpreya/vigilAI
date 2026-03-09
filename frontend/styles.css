@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/forms";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/container-queries";
+
+@source "./**/*.html";
+@source "./js/**/*.js";
+
+@theme {
+  --color-primary: #2563eb;
+  --color-paper-bg: #fcfcfc;
+  --color-paper-off-white: #f3f4f6;
+  --color-border-dark: #000000;
+  --color-sidebar-bg: #f1f0ea;
+
+  --font-sans: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-display: "Space Grotesk", sans-serif;
+
+  --shadow-brutal: 4px 4px 0px 0px rgba(0,0,0,1);
+  --shadow-brutal-sm: 2px 2px 0px 0px rgba(0,0,0,1);
+  --shadow-brutal-hover: 6px 6px 0px 0px rgba(0,0,0,1);
+}

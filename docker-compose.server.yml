@@ -1,0 +1,66 @@
+services:
+  # Next.js Backend (Platform) - connects to AWS Aurora
+  backend:
+    image: techiepookie/vigilai-backend:latest
+    container_name: vigilai-backend
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: ${DATABASE_URL}
+      DIRECT_URL: ${DIRECT_URL}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      NEXTAUTH_URL: https://vigilai.space
+      FRONTEND_URL: https://vigilai.space
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+    networks:
+      - vigilai-network
+    command: sh -c "npx prisma migrate deploy && npm start"
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Nginx Reverse Proxy (serves static files + proxies API)
+  nginx:
+    image: techiepookie/vigilai-nginx:latest
+    container_name: vigilai-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - certbot-data:/var/www/certbot:ro
+      - certbot-conf:/etc/letsencrypt:ro
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - vigilai-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+
+  # Certbot for SSL certificate management
+  certbot:
+    image: certbot/certbot:latest
+    container_name: vigilai-certbot
+    restart: unless-stopped
+    volumes:
+      - certbot-data:/var/www/certbot
+      - certbot-conf:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot --webroot-path=/var/www/certbot; sleep 12h & wait $${!}; done;'"
+
+networks:
+  vigilai-network:
+    driver: bridge
+
+volumes:
+  certbot-data:
+  certbot-conf:

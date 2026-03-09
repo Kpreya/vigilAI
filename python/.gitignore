@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# Config files (may contain secrets)
+vigilai.config.json
+vigilai.config.yaml
+.vigilai.json
+
+# Type checking
+.mypy_cache/
+.pytype/
